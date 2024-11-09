@@ -30,6 +30,9 @@
 ---
 # commit 규칙
 1. 기능 별로 브랜치 만들기
+- main
+  - develop : User, Book
+    - feature : `feature/기능이름` 으로 만들기 (ex. feature/login) 
 2. commit 메세지는 자세히 쓰기
 3. pull, commit 자주하기
 
