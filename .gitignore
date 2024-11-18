@@ -24,8 +24,3 @@ hs_err_pid*
 replay_pid*
 /.metadata/
 
-# WebConfig 제외
-src/main/java/com/mjhr/project/common/config/WebConfig.java
-
-# application.properties 제외
-src/main/resources/application.properties
