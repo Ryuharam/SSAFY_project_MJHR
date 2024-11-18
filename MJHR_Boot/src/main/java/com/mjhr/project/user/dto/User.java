@@ -2,7 +2,7 @@ package com.mjhr.project.user.dto;
 
 public class User {
 	private int userId;
-	private int userPw;
+	private String userPw;
 	private String userName;
 	private String email;
 	private String userNic;
@@ -14,10 +14,10 @@ public class User {
 	public void setUserId(int userId) {
 		this.userId = userId;
 	}
-	public int getUserPw() {
+	public String getUserPw() {
 		return userPw;
 	}
-	public void setUserPw(int userPw) {
+	public void setUserPw(String userPw) {
 		this.userPw = userPw;
 	}
 	public String getUserName() {

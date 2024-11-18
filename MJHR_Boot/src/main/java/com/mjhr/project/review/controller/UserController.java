@@ -25,9 +25,9 @@ public class UserController {
 	@Autowired
 	private UserService service;
 
-	@PostMapping("") // 사용자 정보 등록
+	@PostMapping("") // 사용자 정보 등록(회원 가입)
 	public ResponseEntity<String> addUser(@RequestBody User user) {
-		boolean result = service.addUser(user);
+		boolean result = service.registerUser(user);
 		return result ? ResponseEntity.status(HttpStatus.CREATED).body("User added successfully")
 				: ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to add user");
 	}
