@@ -22,14 +22,14 @@ public class JwtUtil {
 	//토큰 생성시 다양한 데이터를 저장할 수 있음(dto or map)
 	public String createToken(String name) {
 		//유효기간 결정
-		Date exp = new Date(System.currentTimeMillis()+1000*60*60); //유효기간 1시간
-		return Jwts.builder().header().add("typ", "JWT").and()
-				.claim("name", name).expiration(exp)
-				.signWith(secretKey).compact();
+		Date exp = new Date(System.currentTimeMillis()+1000*60*60); //유효기간 현재시간으로부터 1시간
+		return Jwts.builder().header().add("typ", "JWT").and() // header
+				.claim("name", name).expiration(exp) //payload
+				.signWith(secretKey).compact(); //sign
 				
 	}
 	
-	//유효성 검증
+	//유효성 검증은 위한 메서드
 	public Jws<Claims> validate(String token){
 		return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token);
 	}
