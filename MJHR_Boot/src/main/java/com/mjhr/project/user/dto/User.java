@@ -1,17 +1,17 @@
 package com.mjhr.project.user.dto;
 
 public class User {
-	private int userId;
+	private String userId;
 	private String userPw;
 	private String userName;
 	private String email;
 	private String userNic;
 	private String userImg;
 	
-	public int getUserId() {
+	public String getUserId() {
 		return userId;
 	}
-	public void setUserId(int userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 	public String getUserPw() {
