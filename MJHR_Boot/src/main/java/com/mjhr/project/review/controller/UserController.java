@@ -33,7 +33,7 @@ public class UserController {
 	}
 
 	// 사용자 목록 전체 가져오기
-	@GetMapping("/user")
+	@GetMapping("")
 	public ResponseEntity<?> userList() {
 		List<User> list = userService.getUserList();
 		if (list == null || list.size() == 0)
@@ -51,7 +51,7 @@ public class UserController {
 	}
 
 	// 사용자 로그인
-	@PostMapping("/login")
+	@PostMapping("/login")							//user : json 객체 형태로 넘어옴
 	public ResponseEntity<Map<String, Object>> login(@RequestBody User user) {
 		HttpStatus status = null;
 		Map<String, Object> result = new HashMap<>();
