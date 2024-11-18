@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="com.ssafit.model.dao.VideoDao">
+
+   <!-- 영상 등록 -->
+   <insert id="insertVideo" parameterType="Video">
+       INSERT INTO videos (title, url, part)
+       VALUES (#{title}, #{url}, #{part})
+   </insert>
+   
+   <!-- 특정 영상 조회 -->
+   <select id="selectVideo" parameterType="int" resultType="Video">
+       SELECT *
+       FROM videos 
+       WHERE video_id = #{videoId}
+   </select>
+   
+   <!-- 전체 영상 목록 조회 -->
+   <select id="selectAllVideos" resultType="Video">
+       SELECT *
+       FROM videos
+       ORDER BY created_at DESC
+   </select>
+   
+   <!-- 운동 부위별 영상 조회 -->
+   <select id="selectVideosByPart" parameterType="string" resultType="Video">
+       SELECT *
+       FROM videos
+       WHERE part = #{part}
+       ORDER BY created_at DESC
+   </select>
+   
+   <!-- 조회수 높은 영상 조회 -->
+   <select id="selectTopViewedVideos" parameterType="int" resultType="Video">
+       SELECT *
+       FROM videos
+       ORDER BY view_count DESC
+       LIMIT #{limit}
+   </select>
+   
+   <!-- 영상 정보 수정 -->
+   <update id="updateVideo" parameterType="Video">
+       UPDATE videos 
+       SET title = #{title},
+           url = #{url},
+           part = #{part}
+       WHERE video_id = #{videoId}
+   </update>
+   
+   <!-- 영상 삭제 -->
+   <delete id="deleteVideo" parameterType="int">
+       DELETE FROM videos 
+       WHERE video_id = #{videoId}
+   </delete>
+   
+   <!-- 조회수 증가 -->
+   <update id="increaseViewCount" parameterType="int">
+       UPDATE videos 
+       SET view_count = view_count + 1
+       WHERE video_id = #{videoId}
+   </update>
+
+</mapper>
