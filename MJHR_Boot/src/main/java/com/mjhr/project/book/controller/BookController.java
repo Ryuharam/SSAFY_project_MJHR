@@ -6,8 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,6 +18,7 @@ import com.mjhr.project.book.dto.Book;
 import com.mjhr.project.book.service.BookService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Tag(name="Book",description = "도서")
@@ -45,11 +49,40 @@ public class BookController {
 	
 	// 도서 검색
 	
-	// 도서 등록
 	
-	// 도서 삭제
+	
+	@Operation(summary = "도서 등록", description = "도서 등록")
+	@PostMapping()
+	public ResponseEntity<String> registBook(@RequestBody Book book){
+		System.out.println("Controller 확인");
+		System.out.println(book.toString());
+		if(service.createBook(book)) {
+			return new ResponseEntity<>(HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@Operation(summary = "도서 삭제", description = "도서 삭제")
+	@DeleteMapping("/{isbn}")
+	public ResponseEntity<String> deleteBook(@PathVariable("isbn") String isbn){
+		if(service.removeBook(isbn)) {
+			return new ResponseEntity<>(HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			
+		}
+	}
 	
 	// 도서 수정
-	
+	@Operation(summary = "도서 수정", description = "도서 수정")
+	@PutMapping()
+	public ResponseEntity<String> modifyBook(@RequestBody Book book){
+		if(service.modifyBook(book)) {
+			return new ResponseEntity<>(HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
 	
 }

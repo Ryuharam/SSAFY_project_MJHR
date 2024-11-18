@@ -28,27 +28,32 @@ public class BookServiceImpl implements BookService{
 
 	@Override
 	public Book getBookByIsbn(String isbn) {
+		System.out.println(isbn);
 		return dao.select(isbn);
 	}
 
 	@Override
 	public List<Book> searchBook(SearchCondition condition) {
-		return null;
+		System.out.println(condition.toString());
+		return dao.search(condition);
 	}
 
 	@Override
 	public boolean createBook(Book book) {
-		return false;
+		System.out.println(book.toString());
+		return dao.insert(book)==1;
 	}
 
 	@Override
 	public boolean removeBook(String isbn) {
-		return false;
+		System.out.println(isbn);
+		return dao.delete(isbn)==1;
 	}
 
 	@Override
 	public boolean modifyBook(Book book) {
-		return false;
+		System.out.println(book.toString());
+		return dao.update(book)==1;
 	}
 
 
