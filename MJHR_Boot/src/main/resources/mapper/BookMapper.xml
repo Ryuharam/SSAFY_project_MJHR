@@ -3,11 +3,19 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mjhr.project.book.dao.BookDao">
+
 	<select id="selectAll" resultType="Book">
 	SELECT * FROM books;
 	</select>
+	
 	<select id="select" parameterType="String" resultType="Book">
 	SELECT * FROM books
 	WHERE isbn = #{isbn};
 	</select>
+	
+	<insert id="insert" parameterType="Book">
+	INSERT INTO books (isbn, title, author, publisher, book_img, publication_date) VALUES
+	(#{isbn},#{title},#{author},#{publisher},#{bookImg},#{publicationDate});
+	</insert>
+	
 </mapper>
