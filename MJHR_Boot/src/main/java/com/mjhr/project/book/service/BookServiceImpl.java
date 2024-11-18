@@ -28,7 +28,7 @@ public class BookServiceImpl implements BookService{
 
 	@Override
 	public Book getBookByIsbn(String isbn) {
-		return null;
+		return dao.select(isbn);
 	}
 
 	@Override

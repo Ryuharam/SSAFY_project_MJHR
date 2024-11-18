@@ -6,4 +6,8 @@
 	<select id="selectAll" resultType="Book">
 	SELECT * FROM books;
 	</select>
+	<select id="select" parameterType="String" resultType="Book">
+	SELECT * FROM books
+	WHERE isbn = #{isbn};
+	</select>
 </mapper>

@@ -11,8 +11,9 @@ public interface BookDao {
 	
 	// 전체 도서 목록 조회
 	public List<Book> selectAll();
-	
+
 	// isbn에 해당하는 도서 조회
+	public Book select(String isbn);
 	
 	// 도서 검색
 	
