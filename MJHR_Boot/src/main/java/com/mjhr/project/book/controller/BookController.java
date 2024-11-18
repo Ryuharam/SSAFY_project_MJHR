@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,7 +28,6 @@ public class BookController {
 		this.service = service;
 	}
 	
-	// 도서 전체 조회
 	@Operation(summary = "도서 전체 조회", description = "도서 전체 목록을 조회합니다.")
 	@GetMapping()
 	public ResponseEntity<List<Book>> getAllBook(){
@@ -36,7 +36,12 @@ public class BookController {
 	}
 	
 	// isbn에 해당하는 도서 조회
-	
+	@Operation(summary = "isbn에 해당하는 도서 조회", description = "isbn에 해당하는 도서를 조회합니다.")
+	@GetMapping({"/{isbn}"})
+	public ResponseEntity<Book> getBook(@PathVariable("isbn") String isbn){
+		Book book = service.getBookByIsbn(isbn);
+		return new ResponseEntity<Book>(book, book==null?HttpStatus.NOT_FOUND:HttpStatus.OK);
+	}
 	
 	// 도서 검색
 	
