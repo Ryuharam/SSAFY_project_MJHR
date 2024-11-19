@@ -94,7 +94,7 @@ public class ReviewController {
 	}
 	
 	@Operation(summary = "독후감 수정", description = "독후감 수정")
-	@PutMapping("/update/{reviewId}")
+	@PutMapping("/update")
 	public ResponseEntity<?> modifyReview(@ModelAttribute Review modifyreview){
 		
 		System.out.println(modifyreview);
