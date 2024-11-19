@@ -25,7 +25,8 @@
 	
 	<update id="update" parameterType="Book">
 	UPDATE books 
-	SET  
+	SET title = #{title}, author = #{author}, publisher = #{publisher}, book_img = #{bookImg}, publication_date = #{publicationDate}
+	WHERE isbn = #{isbn};
 	</update>
 	
 </mapper>

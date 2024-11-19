@@ -3,8 +3,11 @@ package com.mjhr.project.user.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Mapper;
+
 import com.mjhr.project.user.dto.User;
 
+@Mapper
 public interface UserDao {
 	//사용자 전체 목록
 	public List<User> selectAllUsers();

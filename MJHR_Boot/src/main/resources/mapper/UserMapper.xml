@@ -5,9 +5,9 @@
 <mapper namespace="com.mjhr.project.user.dao.UserDao">
 
 	<select id="selectOne" parameterType="Map" resultType="User">
-		SELECT id, name 
+		SELECT use_id, user_name 
 		FROM users
-		WHERE id = #{user_id} AND password = #{user_pw}
+		WHERE id = #{userId} AND password = #{userPw}
 	</select>
 	
 	<select id="selectAllUsers" resultType="User">
@@ -17,11 +17,11 @@
 	
 	<insert id="insertUser" parameterType="User">
 		INSERT INTO users
-		VALUES (#{user_id}, #{user_pw}, #{user_name}, #{user_email}, #{user_nic}, #{user_img});
+		VALUES (#{userId}, #{userPw}, #{userName}, #{userEmail}, #{userNic}, #{userImg});
 	</insert>
 	
 	<delete id="deleteUser" parameterType="int">
 	DELETE FROM users
-	WHERE id = #{user_id}
+	WHERE id = #{userId}
 	</delete>
 </mapper>

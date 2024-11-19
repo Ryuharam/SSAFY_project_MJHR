@@ -76,7 +76,19 @@ public class BookController {
 	// 도서 수정
 	@Operation(summary = "도서 수정", description = "도서 수정")
 	@PutMapping()
-	public ResponseEntity<String> modifyBook(@ModelAttribute Book book) {
+	public ResponseEntity<String> modifyBook(@ModelAttribute Book modifyBook) {
+		System.out.println(modifyBook.getIsbn());
+		
+		Book book = service.getBookByIsbn(modifyBook.getIsbn());
+		
+		System.out.println(book);
+		
+		if(modifyBook.getTitle()!=null) book.setTitle(modifyBook.getTitle());
+		if(modifyBook.getAuthor()!=null) book.setAuthor(modifyBook.getAuthor());
+		if(modifyBook.getPublisher()!=null) book.setPublisher(modifyBook.getPublisher());
+		if(modifyBook.getBookImg()!=null) book.setBookImg(modifyBook.getBookImg());
+		if(modifyBook.getPublicationDate()!=null) book.setPublicationDate(modifyBook.getPublicationDate());
+		
 		if (service.modifyBook(book)) {
 			return new ResponseEntity<>(HttpStatus.OK);
 		} else {
