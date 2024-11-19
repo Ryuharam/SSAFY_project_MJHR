@@ -13,6 +13,16 @@
 	WHERE isbn = #{isbn};
 	</select>
 	
+	<select id="search" parameterType="SearchCondition" resultType="Book">
+	SELECT * FROM books
+	<if test="key != null">
+		WHERE #{key} LikeConcat('%',#{word},'%')
+	</if>
+	<if test="orderBy != null">
+		ORDER BY ${orderBy} ${orderByDir}
+	</if>
+	</select>
+	
 	<insert id="insert" parameterType="Book">
 	INSERT INTO books (isbn, title, author, publisher, book_img, publication_date) VALUES
 	(#{isbn},#{title},#{author},#{publisher},#{bookImg},#{publicationDate});
