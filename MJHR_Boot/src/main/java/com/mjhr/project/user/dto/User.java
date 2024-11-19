@@ -4,7 +4,7 @@ public class User {
 	private String userId;
 	private String userPw;
 	private String userName;
-	private String email;
+	private String userEmail;
 	private String userNic;
 	private String userImg;
 	
@@ -27,10 +27,10 @@ public class User {
 		this.userName = userName;
 	}
 	public String getEmail() {
-		return email;
+		return userEmail;
 	}
 	public void setEmail(String email) {
-		this.email = email;
+		this.userEmail = email;
 	}
 	public String getUserNic() {
 		return userNic;

@@ -13,8 +13,9 @@ public interface UserService {
 	public User login(String id, String password);
 	//로그아웃 하기
 	public void logoutUser(); //jwt 토큰을 사용할건데 로그아웃 기능을 구현할 수 있나?
-//	//사용자 검색
-//	User getUserById(int id);
+	//사용자 검색
+	public User searchUserByNic(String nic);
+	
 //	//사용자 정보 수정
 //	boolean updateUser(int id, User user);
 //	//사용자 삭제 

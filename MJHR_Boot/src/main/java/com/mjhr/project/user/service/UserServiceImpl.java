@@ -41,7 +41,13 @@ public class UserServiceImpl implements UserService {
 
 	}
 
-
+	@Override // 사용자 닉네임 검색 
+	public User searchUserByNic(String nic) {
+		// TODO Auto-generated method stub
+		return dao.selectUserByNic(nic);
+	}
+	
+	
 //	@Override // 사용자 개인 정보 조회
 //	public User getUserById(int id) {
 //		// TODO Auto-generated method stub

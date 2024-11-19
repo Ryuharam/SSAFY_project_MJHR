@@ -31,7 +31,7 @@ public class WebConfig implements WebMvcConfigurer {
             registry.addInterceptor(jwtInterceptor)
                 .addPathPatterns("/**") // 모든 요청에 대해 인터셉터 적용
                 .excludePathPatterns(
-                    "/api-user/**", // 사용자 관련 요청 제외
+                    "/user/**", // 사용자 관련 요청 제외
                     "/swagger-ui/**", // Swagger 관련 요청 제외
                     "/v3/api-docs/**" // OpenAPI 문서 관련 요청 제외
                 );
