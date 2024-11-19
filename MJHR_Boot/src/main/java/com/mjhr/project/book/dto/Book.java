@@ -1,6 +1,6 @@
 package com.mjhr.project.book.dto;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public class Book {
 	private String isbn;
@@ -8,7 +8,7 @@ public class Book {
 	private String author;
 	private String publisher;
 	private String bookImg;
-	private LocalDateTime publicationDate;
+	private LocalDate publicationDate;
 	
 	public String getIsbn() {
 		return isbn;
@@ -40,10 +40,10 @@ public class Book {
 	public void setBookImg(String bookImg) {
 		this.bookImg = bookImg;
 	}
-	public LocalDateTime getPublicationDate() {
+	public LocalDate getPublicationDate() {
 		return publicationDate;
 	}
-	public void setPublicationDate(LocalDateTime publicationDate) {
+	public void setPublicationDate(LocalDate publicationDate) {
 		this.publicationDate = publicationDate;
 	}
 	@Override
