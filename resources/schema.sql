@@ -8,7 +8,7 @@ CREATE TABLE users (
     user_pw VARCHAR(100) NOT NULL,
     user_name VARCHAR(50) NOT NULL,
     user_email VARCHAR(100) UNIQUE NOT NULL,
-    user_nic VARCHAR(50),
+    user_nic VARCHAR(50) UNIQUE NOT NULL,
     user_img VARCHAR(255)
 );
 
