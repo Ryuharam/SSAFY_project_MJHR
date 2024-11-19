@@ -44,6 +44,11 @@ public class User {
 	public void setUserImg(String userImg) {
 		this.userImg = userImg;
 	}
+	@Override
+	public String toString() {
+		return "User [userId=" + userId + ", userPw=" + userPw + ", userName=" + userName + ", userEmail=" + userEmail
+				+ ", userNic=" + userNic + ", userImg=" + userImg + "]";
+	}
 	
 	
 }

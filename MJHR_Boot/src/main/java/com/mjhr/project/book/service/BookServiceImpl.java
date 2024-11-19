@@ -17,10 +17,6 @@ public class BookServiceImpl implements BookService {
 		this.dao = dao;
 	}
 
-	public BookService getInstance() {
-		return null;
-	}
-
 	@Override
 	public List<Book> getAllBook() {
 		return dao.selectAll();
@@ -28,7 +24,7 @@ public class BookServiceImpl implements BookService {
 
 	@Override
 	public Book getBookByIsbn(String isbn) {
-		return null;
+		return dao.select(isbn);
 	}
 
 	@Override
