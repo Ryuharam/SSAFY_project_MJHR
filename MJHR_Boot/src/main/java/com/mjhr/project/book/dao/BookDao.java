@@ -5,7 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.mjhr.project.book.dto.Book;
-import com.mjhr.project.book.dto.SearchCondition;
+import com.mjhr.project.common.dto.SearchCondition;
 
 @Mapper
 public interface BookDao {

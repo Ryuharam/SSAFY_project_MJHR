@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.mjhr.project.book.dao.BookDao;
 import com.mjhr.project.book.dto.Book;
-import com.mjhr.project.book.dto.SearchCondition;
+import com.mjhr.project.common.dto.SearchCondition;
 
 @Service
 public class BookServiceImpl implements BookService {
@@ -30,6 +30,9 @@ public class BookServiceImpl implements BookService {
 	@Override
 	public List<Book> searchBook(SearchCondition condition) {
 		System.out.println(condition.toString());
+		String key = condition.getKey();
+		
+		if(!"title".equals(key) && !"author".equals(key) && "publisher".equals(key)) return null;
 		return dao.search(condition);
 	}
 
