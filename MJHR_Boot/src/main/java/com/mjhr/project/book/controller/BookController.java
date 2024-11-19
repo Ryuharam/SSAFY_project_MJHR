@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mjhr.project.book.dto.Book;
+import com.mjhr.project.book.dto.SearchCondition;
 import com.mjhr.project.book.service.BookService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -49,6 +50,15 @@ public class BookController {
 	}
 
 	// 도서 검색
+	@Operation(summary = "도서 검색", description = "도서 검색, key는 title, author, publisher만 가능")
+	@GetMapping("/search")
+	public ResponseEntity<?> searchBook(@ModelAttribute SearchCondition condition){
+		List<Book> result = service.searchBook(condition);
+		if(result==null || result.size()==0) {
+			return new ResponseEntity<>("검색 결과가 없습니다.", HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
 
 	@Operation(summary = "도서 등록", description = "도서 등록")
 	@PostMapping()

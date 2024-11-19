@@ -5,38 +5,44 @@
 <mapper namespace="com.mjhr.project.book.dao.BookDao">
 
 	<select id="selectAll" resultType="Book">
-	SELECT * FROM books;
+		SELECT * FROM books;
 	</select>
-	
+
 	<select id="select" parameterType="String" resultType="Book">
-	SELECT * FROM books
-	WHERE isbn = #{isbn};
+		SELECT * FROM books
+		WHERE isbn = #{isbn};
 	</select>
-	
-	<select id="search" parameterType="SearchCondition" resultType="Book">
-	SELECT * FROM books
-	<if test="key != null">
-		WHERE #{key} LikeConcat('%',#{word},'%')
-	</if>
-	<if test="orderBy != null">
-		ORDER BY ${orderBy} ${orderByDir}
-	</if>
+
+	<select id="search" parameterType="SearchCondition"
+		resultType="Book">
+		SELECT * FROM books
+		<where>
+			<if test="key != null and word != null">
+				${key} LIKE CONCAT('%', #{word}, '%')
+			</if>
+		</where>
+		<if test="orderBy != null and orderByDir != null">
+			ORDER BY ${orderBy} ${orderByDir}
+		</if>
 	</select>
-	
+
+
 	<insert id="insert" parameterType="Book">
-	INSERT INTO books (isbn, title, author, publisher, book_img, publication_date) VALUES
-	(#{isbn},#{title},#{author},#{publisher},#{bookImg},#{publicationDate});
+		INSERT INTO books (isbn, title, author, publisher, book_img,
+		publication_date) VALUES
+		(#{isbn},#{title},#{author},#{publisher},#{bookImg},#{publicationDate});
 	</insert>
-	
+
 	<delete id="delete" parameterType="String">
-	DELETE FROM books
-	WHERE isbn = #{isbn};
+		DELETE FROM books
+		WHERE isbn = #{isbn};
 	</delete>
-	
+
 	<update id="update" parameterType="Book">
-	UPDATE books 
-	SET title = #{title}, author = #{author}, publisher = #{publisher}, book_img = #{bookImg}, publication_date = #{publicationDate}
-	WHERE isbn = #{isbn};
+		UPDATE books
+		SET title = #{title}, author = #{author}, publisher = #{publisher},
+		book_img = #{bookImg}, publication_date = #{publicationDate}
+		WHERE isbn = #{isbn};
 	</update>
-	
+
 </mapper>

@@ -30,6 +30,9 @@ public class BookServiceImpl implements BookService {
 	@Override
 	public List<Book> searchBook(SearchCondition condition) {
 		System.out.println(condition.toString());
+		String key = condition.getKey();
+		
+		if(!"title".equals(key) && !"author".equals(key) && "publisher".equals(key)) return null;
 		return dao.search(condition);
 	}
 
