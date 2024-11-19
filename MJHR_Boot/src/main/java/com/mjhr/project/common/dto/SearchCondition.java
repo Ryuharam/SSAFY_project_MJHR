@@ -1,4 +1,4 @@
-package com.mjhr.project.book.dto;
+package com.mjhr.project.common.dto;
 
 public class SearchCondition {
 	private String key;

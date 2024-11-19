@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.mjhr.project.book.dao.BookDao;
 import com.mjhr.project.book.dto.Book;
-import com.mjhr.project.book.dto.SearchCondition;
+import com.mjhr.project.common.dto.SearchCondition;
 
 @Service
 public class BookServiceImpl implements BookService {

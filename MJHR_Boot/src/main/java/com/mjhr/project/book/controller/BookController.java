@@ -2,7 +2,6 @@ package com.mjhr.project.book.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,11 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mjhr.project.book.dto.Book;
-import com.mjhr.project.book.dto.SearchCondition;
 import com.mjhr.project.book.service.BookService;
+import com.mjhr.project.common.dto.SearchCondition;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Tag(name = "Book", description = "도서")

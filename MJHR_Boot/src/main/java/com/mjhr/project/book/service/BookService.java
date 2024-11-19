@@ -3,7 +3,7 @@ package com.mjhr.project.book.service;
 import java.util.List;
 
 import com.mjhr.project.book.dto.Book;
-import com.mjhr.project.book.dto.SearchCondition;
+import com.mjhr.project.common.dto.SearchCondition;
 
 public interface BookService {
 	

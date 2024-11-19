@@ -1,15 +1,16 @@
 package com.mjhr.project.review.dto;
 
 public class Review {
-	private int reviewId;
+	private String reviewId;
 	private String userId;
 	private String isbn;
 	private String reviewTitle;
 	private String reviewContent;
-	public int getReviewId() {
+	
+	public String getReviewId() {
 		return reviewId;
 	}
-	public void setReviewId(int reviewId) {
+	public void setReviewId(String reviewId) {
 		this.reviewId = reviewId;
 	}
 	public String getUserId() {
