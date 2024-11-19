@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -51,8 +52,7 @@ public class BookController {
 
 	@Operation(summary = "도서 등록", description = "도서 등록")
 	@PostMapping()
-
-	public ResponseEntity<String> registBook(@RequestBody Book book) {
+	public ResponseEntity<String> registBook(@ModelAttribute Book book) {
 		System.out.println("Controller 확인");
 		System.out.println(book.toString());
 		if (service.createBook(book)) {
@@ -76,7 +76,7 @@ public class BookController {
 	// 도서 수정
 	@Operation(summary = "도서 수정", description = "도서 수정")
 	@PutMapping()
-	public ResponseEntity<String> modifyBook(@RequestBody Book book) {
+	public ResponseEntity<String> modifyBook(@ModelAttribute Book book) {
 		if (service.modifyBook(book)) {
 			return new ResponseEntity<>(HttpStatus.OK);
 		} else {
