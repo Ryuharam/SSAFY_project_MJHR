@@ -1,4 +1,4 @@
-package com.mjhr.project.review.controller;
+package com.mjhr.project.user.controller;
 
 import java.util.HashMap;
 import java.util.List;
@@ -60,7 +60,7 @@ public class UserController {
 		System.out.println(loginUser);
 		if (loginUser != null) {
 			result.put("message", "login 성공");
-//			result.put("access-token", jwtUtil.createToken(loginUser.getName()));
+			result.put("access-token", jwtUtil.createToken(loginUser.getUserId()));
 			// id도 같이 넘겨주면 번거로운 작업을 할 필요는 없어
 			status = HttpStatus.ACCEPTED;
 		} else {
@@ -69,3 +69,4 @@ public class UserController {
 		return new ResponseEntity<>(result, status);
 	}
 }
+
