@@ -25,6 +25,11 @@
 	WHERE user_nic LIKE concat('%',#{userNic},'%')
 	</select>
 	
+	<select id="uploadUserFile" parameterType="UserFile">
+	INSERT INTO users(user_img)
+	VALUES (#{userId}, #{filePath}, #{fileName})
+	</select>
+	
 	
 <!-- 	<delete id="deleteUser" parameterType="int">
 	DELETE FROM users

@@ -3,7 +3,30 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mjhr.project.book.dao.BookDao">
+
 	<select id="selectAll" resultType="Book">
 	SELECT * FROM books;
 	</select>
+	
+	<select id="select" parameterType="String" resultType="Book">
+	SELECT * FROM books
+	WHERE isbn = #{isbn};
+	</select>
+	
+	<insert id="insert" parameterType="Book">
+	INSERT INTO books (isbn, title, author, publisher, book_img, publication_date) VALUES
+	(#{isbn},#{title},#{author},#{publisher},#{bookImg},#{publicationDate});
+	</insert>
+	
+	<delete id="delete" parameterType="String">
+	DELETE FROM books
+	WHERE isbn = #{isbn};
+	</delete>
+	
+	<update id="update" parameterType="Book">
+	UPDATE books 
+	SET title = #{title}, author = #{author}, publisher = #{publisher}, book_img = #{bookImg}, publication_date = #{publicationDate}
+	WHERE isbn = #{isbn};
+	</update>
+	
 </mapper>
