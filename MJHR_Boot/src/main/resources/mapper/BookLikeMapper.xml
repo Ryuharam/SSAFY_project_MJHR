@@ -23,7 +23,8 @@
     <select id="selectUserLikes" parameterType="String" resultType="BookLike">
         SELECT bl.user_id, bl.isbn, b.title
         FROM book_like bl
-        JOIN books b ON bl.isbn = b.isbn
+        JOIN books b 
+        ON bl.isbn = b.isbn
         WHERE bl.user_id = #{userId} AND bl.status = 'ACTIVE'; <!-- 활성 상태 조건 추가 -->
     </select>
 
@@ -31,7 +32,8 @@
     <select id="selectBookLikes" parameterType="String" resultType="BookLike">
         SELECT bl.user_id, bl.isbn, u.user_nic
         FROM book_like bl
-        JOIN users u ON bl.user_id = u.user_id
+        JOIN users u 
+        ON bl.user_id = u.user_id
         WHERE bl.isbn = #{isbn} AND bl.status = 'ACTIVE'; <!-- 활성 상태 조건 추가 -->
     </select>
 
