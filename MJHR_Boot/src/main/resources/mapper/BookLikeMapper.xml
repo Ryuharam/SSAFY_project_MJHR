@@ -4,24 +4,45 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mjhr.project.book.dao.BookLikeDao">
 
-	<insert id="insertLike" parameterType="BookLike">
+	<insert id="insertLike" parameterType="String">
 		INSERT INTO book_like
 		(user_id, isbn)
 		VALUES
 		(#{userId},#{isbn});
 	</insert>
 
-	<delete id="deleteLike" parameterType="BookLike">
+	<delete id="deleteLike" parameterType="String">
 		DELETE FROM book_like
 		WHERE user_id = #{userId} AND isbn = #{isbn};
 	</delete>
 	
-	<select id="selectMyLike" parameterType="String" resultType="BookLike">
-		SELECT u.user_id, u.user_nic, b.isbn
-		FROM book_like b
-		JOIN user u
-		ON b.user_id = u.user_id
-		WHERE u.userId = #{userId};
+	<select id="selectUserLikes" parameterType="String" resultType="BookLike">
+		SELECT bl.user_id, bl.isbn, b.title
+		FROM book_like bl
+		JOIN books b
+		ON bl.isbn=b.isbn
+		WHERE user_id = #{userId};
 	</select>
-
+	
+	<select id="selectBookLikes" parameterType="String" resultType="BookLike">
+		SELECT bl.user_id, bl.isbn, u.user_nic
+		FROM book_like bl
+		JOIN users u
+		ON bl.user_id = u.user_id
+		WHERE bl.isbn = #{isbn};
+	</select>
+	
+	<select id="selectBookCount" parameterType="String" resultType="int">
+		SELECT COUNT(*)
+		FROM book_like
+		WHERE user_id = #{userId};
+	</select>
+	
+	<select id="selectUserCount" parameterType="String" resultType="int">
+		SELECT COUNT(*)
+		FROM book_like
+		WHERE isbn = #{isbn};
+	</select>
+	
+	
 </mapper>

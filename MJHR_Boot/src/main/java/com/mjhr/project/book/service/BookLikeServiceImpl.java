@@ -2,25 +2,28 @@ package com.mjhr.project.book.service;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.mjhr.project.book.dao.BookLikeDao;
 import com.mjhr.project.book.dto.BookLike;
 
-public class BookLikeServiceImpl implements BookLikeService{
-	
+@Service
+public class BookLikeServiceImpl implements BookLikeService {
+
 	private final BookLikeDao dao;
-	
+
 	public BookLikeServiceImpl(BookLikeDao dao) {
 		this.dao = dao;
 	}
 
 	@Override
 	public boolean createBookLike(String userId, String isbn) {
-		return dao.insertLike(userId,isbn)==1;
+		return dao.insertLike(userId, isbn) == 1;
 	}
 
 	@Override
 	public boolean removeBookLike(String userId, String isbn) {
-		return dao.deleteLike(userId,isbn);
+		return dao.deleteLike(userId, isbn) == 1;
 	}
 
 	@Override
@@ -42,6 +45,5 @@ public class BookLikeServiceImpl implements BookLikeService{
 	public int getBookLikeCount(String isbn) {
 		return dao.selectUserCount(isbn);
 	}
-
 
 }

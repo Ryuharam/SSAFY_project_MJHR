@@ -8,7 +8,7 @@ public interface BookLikeDao {
 
 	int insertLike(String userId, String isbn);
 
-	boolean deleteLike(String userId, String isbn);
+	int deleteLike(String userId, String isbn);
 
 	List<BookLike> selectUserLikes(String userId);
 

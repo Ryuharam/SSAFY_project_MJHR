@@ -1,6 +1,3 @@
-DROP DATABASE IF EXISTS mjhr_db;
-CREATE DATABASE mjhr_db;
-USE mjhr_db;
 
 -- 사용자 테이블
 CREATE TABLE users (

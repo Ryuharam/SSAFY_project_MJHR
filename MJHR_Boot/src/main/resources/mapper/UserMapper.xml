@@ -7,7 +7,7 @@
 	<select id="selectOne" parameterType="Map" resultType="User">
 		SELECT user_id, user_name 
 		FROM users
-		WHERE id = #{userId} AND password = #{userPw}
+		WHERE user_id = #{userId} AND user_pw = #{userPw}
 	</select>
 	
 	<select id="selectAllUsers" resultType="User">
