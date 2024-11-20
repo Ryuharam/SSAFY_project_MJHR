@@ -48,6 +48,7 @@ INSERT INTO users (user_id, user_pw, user_name, user_email, user_nic, user_img) 
 
 -- books 데이터
 INSERT INTO books (isbn, title, author, publisher, book_img, publication_date) VALUES
+('test','test','test','test','test','2022-05-05'),
 ('978-3-16-148410-0', 'Book Title 1', 'Author 1', 'Publisher 1', 'https://example.com/book_img_1.png', '2021-01-01'),
 ('978-3-16-148411-0', 'Book Title 2', 'Author 2', 'Publisher 2', 'https://example.com/book_img_2.png', '2022-02-02'),
 ('978-3-16-148412-0', 'Book Title 3', 'Author 3', 'Publisher 3', 'https://example.com/book_img_3.png', '2020-03-03'),
@@ -83,7 +84,8 @@ INSERT INTO book_like (book_like_id, user_id, isbn) VALUES
 (7, 'user_7', '978-3-16-148416-0'),
 (8, 'user_8', '978-3-16-148417-0'),
 (9, 'user_9', '978-3-16-148418-0'),
-(10, 'user_10', '978-3-16-148419-0');
+(10, 'user_10', '978-3-16-148419-0'),
+(50, 'ssafy', 'test');
 
 -- review_like 데이터
 INSERT INTO review_like (review_like_id, user_id, review_id) VALUES
@@ -110,3 +112,11 @@ INSERT INTO review_comments (comment_id, user_id, review_id, comment_content) VA
 (8, 'user_8', 8, 'This is comment 8 on review 8.'),
 (9, 'user_9', 9, 'This is comment 9 on review 9.'),
 (10, 'user_10', 10, 'This is comment 10 on review 10.');
+
+---------------------------------------------
+DELETE FROM book_like
+WHERE user_id = 'ssafy' AND isbn = 'test';
+
+SELECT u.user_id, u.user_nic, b.isbn
+		FROM users u, book_like b
+		WHERE u.user_id = b.user_id AND u.user_id = 'user_1';

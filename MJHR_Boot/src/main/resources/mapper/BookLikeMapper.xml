@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mjhr.project.book.dao.BookLikeDao">
+
+	<insert id="insertLike" parameterType="BookLike">
+		INSERT INTO book_like
+		(user_id, isbn)
+		VALUES
+		(#{userId},#{isbn});
+	</insert>
+
+	<delete id="deleteLike" parameterType="BookLike">
+		DELETE FROM book_like
+		WHERE user_id = #{userId} AND isbn = #{isbn};
+	</delete>
+	
+	<select id="selectMyLike" parameterType="String" resultType="BookLike">
+		SELECT u.user_id, u.user_nic, b.isbn
+		FROM book_like b
+		JOIN user u
+		ON b.user_id = u.user_id
+		WHERE u.userId = #{userId};
+	</select>
+
+</mapper>

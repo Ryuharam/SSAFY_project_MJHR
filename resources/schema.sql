@@ -17,9 +17,9 @@ CREATE TABLE books (
     isbn VARCHAR(20) PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     author VARCHAR(100) NOT NULL,
-    publisher VARCHAR(100),
+    publisher VARCHAR(100) NOT NULL,
     book_img VARCHAR(255),
-    publication_date DATE
+    publication_date DATE NOT NULL
 );
 
 -- 독후감 테이블
