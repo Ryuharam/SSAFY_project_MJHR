@@ -3,6 +3,7 @@ package com.mjhr.project.book.dao;
 import java.util.List;
 
 import com.mjhr.project.book.dto.BookLike;
+import com.mjhr.project.user.dto.User;
 
 public interface BookLikeDao {
 
