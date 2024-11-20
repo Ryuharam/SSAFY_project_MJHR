@@ -20,7 +20,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.websocket.server.PathParam;
 
 @RestController
-@RequestMapping("/bookLike")
+@RequestMapping("/booklike")
 @Tag(name = "BookLike", description = "도서 좋아요 관리")
 public class BookLikeController {
 
