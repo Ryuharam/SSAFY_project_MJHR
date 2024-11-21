@@ -19,10 +19,13 @@ export const useUserStore = defineStore('user', () => {
                 //브라우저의 세션 스토리지에 엑세스 토큰 저장  -> 토큰은 인증에 사용
                 const token = res.data['access-token'].split('.')
                 const name = JSON.parse(atob(token[1]))['name']
+                   
+                console.log(token);
+                console.log(name);
 
                 loginUser.value = name //loginUser 변수에 추출된 사용자 이름 저장 
 
-                router.push({ name: 'App' }) //로그인 성공->boardList로 리다이렉트
+                router.push({ name: 'App' }) //로그인 성공->App(메인)로 리다이렉트
 
             })
             .catch((err) => {
