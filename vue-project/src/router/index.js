@@ -11,6 +11,7 @@ import Login from "../pages/Auth/Login.vue";
 import Settings from "../pages/User/Settings.vue";
 import Signup from "../pages/Auth/Signup.vue";
 import MyPage from "../pages/User/MyPage.vue";
+import BookList from "../pages/Book/BookList.vue";
 
 
 const router = createRouter({
@@ -26,6 +27,11 @@ const router = createRouter({
           path: "",
           name: "Home",
           component: Home,
+        },
+        {
+          path: "book",
+          name: "BookList",
+          component: BookList,
         },
         {
           path: "book/:id",

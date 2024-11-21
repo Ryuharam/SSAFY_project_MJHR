@@ -15,6 +15,10 @@
     <RouterLink :to="{ name: 'MyPage' }">
       <span>MyPage</span>
     </RouterLink>
+    |
+    <RouterLink :to="{ name: 'BookList' }">
+      <span>BookList</span>
+    </RouterLink>
   </nav>
   <h1>1. App.vue</h1>
   <hr>
