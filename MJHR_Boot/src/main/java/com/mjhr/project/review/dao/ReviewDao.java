@@ -2,9 +2,12 @@ package com.mjhr.project.review.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
+
 import com.mjhr.project.common.dto.SearchCondition;
 import com.mjhr.project.review.dto.Review;
 
+@Mapper
 public interface ReviewDao {
 
 	List<Review> selectAll();
