@@ -59,6 +59,7 @@ public class UserController {
 	@Operation(summary = "사용자 로그인", description = "사용자 로그인")
 	@PostMapping("/login") // user : json 객체 형태로 넘어옴
 	public ResponseEntity<Map<String, Object>> login(@RequestBody User user) {
+		System.out.println(user);
 		HttpStatus status = null;
 		Map<String, Object> result = new HashMap<>();
 		User loginUser = userService.login(user.getUserId(), user.getUserPw());

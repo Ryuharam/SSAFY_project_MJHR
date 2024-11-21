@@ -1,64 +1,29 @@
 <template>
-  <div class="login-page">
-    <!-- 로그인 폼 -->
-    <h2>Log In</h2>
-    <form @submit.prevent="handleLogin">
-      <div class="form-group">
-        <label for="email">Email:</label>
-        <input type="email" id="email" v-model="email" required />
-      </div>
-      <div class="form-group">
-        <label for="password">Password:</label>
-        <input type="password" id="password" v-model="password" required />
-      </div>
-      <button type="submit">Log In</button>
-    </form>
-    <!-- 회원가입 링크 -->
-    <p>
-      Don't have an account?
-      <router-link to="/auth/signup">Sign Up</router-link>
-    </p>
+  <div>
+    <h4>Login</h4>
+    <input type="text" placeholder="아이디를 입력해주세요." v-model.trim="id" />
+    <div>
+      <input type="password" placeholder="비밀번호를 입력해주세요." v-model.trim="pw" />
+    </div>
+    <button @click="login">로그인</button>
   </div>
 </template>
 
-<script>
+<script setup>
+import { ref } from 'vue';
+import { useUserStore } from '@/stores/userStore';
+import axios from 'axios';
+
+const store = useUserStore();
+const id = ref('')
+const pw = ref('')
+
+const login = function () {
+  store.userLogin(id.value, pw.value);
+}
 
 </script>
 
 <style scoped>
-/* 스타일: 간단한 폼 레이아웃 */
-.login-page {
-  text-align: center;
-  margin: 20px;
-}
 
-.form-group {
-  margin-bottom: 15px;
-}
-
-label {
-  display: block;
-  margin-bottom: 5px;
-}
-
-input {
-  width: 100%;
-  padding: 8px;
-  margin: 5px 0 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-button {
-  padding: 10px 15px;
-  background-color: #333;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #555;
-}
 </style>

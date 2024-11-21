@@ -4,6 +4,7 @@
       <h1>Welcome to My Book Review</h1>
     </header>
     <main class="auth-content">
+      <RouterView/>
       <slot></slot>
     </main>
     <footer class="auth-footer">

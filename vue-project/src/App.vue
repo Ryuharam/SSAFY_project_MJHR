@@ -5,40 +5,26 @@
     <button @click="search">Search</button>
   </header>
 
-  <button @click="goToLogin">Go to Login</button>
-
-  <router-view />
+  <button @click="login">Go to Login</button>
+  <RouterView/>
 </template>
 
-<script>
+<script setup>
 import { ref } from "vue";
+import { useUserStore } from '@/stores/userStore';
+
+const store = useUserStore();
+
+const id = ref('');
+const password = ref('');
+
+const login = function(){
+  store.userLogin(id.value, password.value)
+}
 
 
 </script>
 
 <style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background-color: #f5f5f5;
-  color: #333;
-}
 
-#app {
-  text-align: center;
-}
-
-button {
-  margin: 20px;
-  padding: 10px 20px;
-  background-color: #333;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #555;
-}
 </style>
