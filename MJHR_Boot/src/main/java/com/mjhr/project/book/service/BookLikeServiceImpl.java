@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.mjhr.project.book.dao.BookLikeDao;
 import com.mjhr.project.book.dto.BookLike;
+import com.mjhr.project.user.dto.User;
 
 @Service
 public class BookLikeServiceImpl implements BookLikeService {

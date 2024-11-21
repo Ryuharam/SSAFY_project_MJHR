@@ -11,14 +11,14 @@
 import {ref} from 'vue';
 import {useUserStore} from '@/stores/userStore';
 
-const store = useUserStore;
+const store = useUserStore();
 
 const id = ref('');
 const pw = ref('');
 
 const login = function(){
     store.userLogin(id.value, pw.value)
-};
+}
 
 </script>
 
