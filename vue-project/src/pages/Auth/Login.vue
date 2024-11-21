@@ -22,23 +22,7 @@
 </template>
 
 <script>
-export default {
-  name: "Login",
-  data() {
-    return {
-      email: "",
-      password: "",
-    };
-  },
-  methods: {
-    // 로그인 처리 로직 (예: API 호출)
-    handleLogin() {
-      console.log("Logging in with:", this.email, this.password);
-      // 실제로는 API 호출 후 응답에 따라 작업 수행
-      this.$router.push("/"); // 로그인 성공 시 메인 페이지로 이동
-    },
-  },
-};
+
 </script>
 
 <style scoped>

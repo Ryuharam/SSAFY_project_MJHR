@@ -22,15 +22,7 @@
 </template>
 
 <script>
-export default {
-  name: "Home",
-  data() {
-    return {
-      books: ["Book 1", "Book 2", "Book 3"], // 추천 도서 목록
-      reviews: ["Review 1", "Review 2", "Review 3"], // 최신 독후감 목록
-    };
-  },
-};
+
 </script>
 
 <style scoped>

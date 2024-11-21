@@ -21,27 +21,7 @@
 </template>
 
 <script>
-export default {
-  name: "Settings",
-  data() {
-    return {
-      nickname: "JohnDoe", // 초기 사용자 닉네임
-      email: "john.doe@example.com", // 초기 사용자 이메일
-      statusMessage: "Loving books!", // 초기 상태 메시지
-    };
-  },
-  methods: {
-    // 설정 저장 로직 (예: API 호출)
-    saveSettings() {
-      console.log("Saving settings:", {
-        nickname: this.nickname,
-        email: this.email,
-        statusMessage: this.statusMessage,
-      });
-      alert("Settings saved successfully!");
-    },
-  },
-};
+
 </script>
 
 <style scoped>

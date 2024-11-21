@@ -26,24 +26,7 @@
 </template>
 
 <script>
-export default {
-  name: "Signup",
-  data() {
-    return {
-      nickname: "",
-      email: "",
-      password: "",
-    };
-  },
-  methods: {
-    // 회원가입 처리 로직 (예: API 호출)
-    handleSignup() {
-      console.log("Signing up with:", this.nickname, this.email, this.password);
-      // 실제로는 API 호출 후 응답에 따라 작업 수행
-      this.$router.push("/auth/login"); // 회원가입 완료 후 로그인 페이지로 이동
-    },
-  },
-};
+
 </script>
 
 <style scoped>

@@ -17,22 +17,7 @@
 </template>
 
 <script>
-export default {
-  name: "BookDetail",
-  data() {
-    return {
-      // 가상의 도서 상세 정보
-      book: {
-        id: 1,
-        title: "The Great Gatsby",
-        author: "F. Scott Fitzgerald",
-        description: "A novel about the American dream and disillusionment.",
-      },
-      // 가상의 독후감 목록
-      reviews: ["Amazing story!", "Loved the characters.", "A timeless classic."],
-    };
-  },
-};
+
 </script>
 
 <style scoped>

@@ -35,27 +35,7 @@
 </template>
 
 <script>
-export default {
-  name: "SearchResult",
-  data() {
-    return {
-      query: "Book Title", // 가상의 검색어
-      // 가상의 검색 결과
-      books: [
-        { id: 1, title: "The Great Gatsby" },
-        { id: 2, title: "To Kill a Mockingbird" },
-      ],
-      users: [
-        { id: 1, name: "JohnDoe" },
-        { id: 2, name: "JaneSmith" },
-      ],
-      reviews: [
-        { id: 1, title: "Great review of '1984'" },
-        { id: 2, title: "Thoughts on 'The Catcher in the Rye'" },
-      ],
-    };
-  },
-};
+
 </script>
 
 <style scoped>

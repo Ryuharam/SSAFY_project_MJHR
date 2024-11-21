@@ -1,18 +1,13 @@
 <template>
-  <div id="app">
-    <!-- 헤더: 메인 화면 위의 검색창 -->
-    <header class="app-header">
-      <input type="text" v-model="searchQuery" placeholder="Search for books, users, reviews..."
-        @keypress.enter="search" />
-      <button @click="search">Search</button>
-    </header>
+  <header class="app-header">
+    <input type="text" v-model="searchQuery" placeholder="Search for books, users, reviews..."
+      @keypress.enter="search" />
+    <button @click="search">Search</button>
+  </header>
 
-    <!-- 로그인 버튼 -->
-    <button @click="goToLogin">Go to Login</button>
+  <button @click="goToLogin">Go to Login</button>
 
-    <!-- 현재 URL에 따라 컴포넌트를 렌더링 -->
-    <router-view />
-  </div>
+  <router-view />
 </template>
 
 <script>

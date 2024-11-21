@@ -27,17 +27,7 @@
 </template>
 
 <script>
-export default {
-  name: "MyPage",
-  data() {
-    return {
-      nickname: "JohnDoe", // 사용자 닉네임
-      email: "john.doe@example.com", // 사용자 이메일
-      myBooks: ["Book A", "Book B", "Book C"], // 읽은 도서 목록
-      myReviews: ["Review A", "Review B", "Review C"], // 작성한 독후감 목록
-    };
-  },
-};
+
 </script>
 
 <style scoped>
