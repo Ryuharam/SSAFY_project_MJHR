@@ -1,39 +1,38 @@
 <template>
+  <h5>BookList</h5>
   <div class="book-list">
-    <!-- 검색 결과로 도서 목록을 표시 -->
-    <h2>Book List</h2>
-    <ul>
-      <li v-for="(book, index) in books" :key="index">
-        <router-link :to="`/book/${book.id}`">{{ book.title }}</router-link>
-      </li>
-    </ul>
+    <div class="book" v-for="(book, index) in store.bookList" :key="index">
+      <BookCard :book="book" />
+    </div>
   </div>
 </template>
 
 <script>
+import { onMounted } from "vue";
+import { useBookStore } from "@/stores/bookStore";
+import BookCard from "@/components/BookCard.vue";
 
+export default {
+  components: {
+    BookCard,
+  },
+  setup() {
+    const store = useBookStore(); // setup 안에서 호출
+
+    onMounted(() => {
+      store.getBookList();
+    });
+
+    return {
+      store,
+    };
+  },
+};
 </script>
 
 <style scoped>
 .book-list {
-  padding: 20px;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  margin-bottom: 10px;
-}
-
-a {
-  text-decoration: none;
-  color: #007bff;
-}
-
-a:hover {
-  text-decoration: underline;
+  display: flex;
+  flex-wrap: wrap;
 }
 </style>

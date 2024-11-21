@@ -10,7 +10,11 @@ import Home from "../pages/Main/Home.vue";
 import BookDetail from "../pages/Book/BookDetail.vue";
 import SearchResult from "../pages/Search/SearchResult.vue";
 import Login from "../pages/Auth/Login.vue";
+import Settings from "../pages/User/Settings.vue";
 import Signup from "../pages/Auth/Signup.vue";
+import MyPage from "../pages/User/MyPage.vue";
+import BookList from "../pages/Book/BookList.vue";
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -18,6 +22,7 @@ const router = createRouter({
     // 메인 레이아웃
     {
       path: "/",
+      name: "MainLayout",
       component: MainLayout,
       children: [
         {
@@ -26,7 +31,12 @@ const router = createRouter({
           component: Home,
         },
         {
-          path: "book/:id",
+          path: "book",
+          name: "BookList",
+          component: BookList,
+        },
+        {
+          path: "bookdetail",
           name: "BookDetail",
           component: BookDetail,
           props: true, // URL의 :id를 컴포넌트의 props로 전달
@@ -50,9 +60,19 @@ const router = createRouter({
         },
         {
           path: "signup",
-          name: "signup",
+          name: "Signup",
           component: Signup,
         },
+        {
+          path: "settings",
+          name: "Settings",
+          component: Settings,
+        },
+        {
+          path: "mypage",
+          name: "MyPage",
+          component: MyPage,
+        }
       ],
     },
   ],

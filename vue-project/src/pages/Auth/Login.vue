@@ -1,4 +1,5 @@
 <template>
+  <h3>3. Login</h3>
   <div>
     <h4>Login</h4>
     <input type="text" placeholder="아이디를 입력해주세요." v-model.trim="id" />
@@ -24,6 +25,4 @@ const login = function () {
 
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

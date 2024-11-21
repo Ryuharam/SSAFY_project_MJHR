@@ -3,6 +3,7 @@ package com.mjhr.project.common.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -41,4 +42,14 @@ public class WebConfig implements WebMvcConfigurer {
         // 현재 설정 상태를 로그로 확인
         System.out.println("현재 활성화된 프로필: " + activeProfile);
     }
+    
+    ////////////////////////////////////////////////////////////////
+    
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOrigins("http://localhost:5173") // Vue 앱 URL
+                .allowedMethods("GET", "POST", "PUT", "DELETE");
+    }
+    
 }
