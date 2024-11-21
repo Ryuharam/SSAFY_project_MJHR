@@ -9,6 +9,8 @@ import BookDetail from "../pages/Book/BookDetail.vue";
 import SearchResult from "../pages/Search/SearchResult.vue";
 import Login from "../pages/Auth/Login.vue";
 
+const isAuth = true //false : 로그인 안된 상태
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -47,7 +49,31 @@ const router = createRouter({
       },
     ],
   },
+    {
+      path: '/login',
+      name: 'userLogin',
+      component: UserLogin, 
+      berforeEnter: (to, from) =>{
+        if(isAuth){
+          console.log("이미 로그인 된 상태입니다.")
+          return {name : 'main'}
+        }
+      }
+    },
   ],
 })
+
+router.beforeEach((to, from)=>{
+  console.log(to);
+  console.log(from);
+
+  if(!isAuth && to.name !== 'userLogin'){ 
+    console.log("로그인이 필요합니다.");
+    return {name : 'userLogin'}
+  }
+})
+
+
+
 
 export default router
