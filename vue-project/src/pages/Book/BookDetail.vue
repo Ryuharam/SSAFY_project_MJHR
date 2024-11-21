@@ -1,4 +1,6 @@
 <template>
+  <h5>BookDetail</h5>
+  <hr>
 
 </template>
 

@@ -5,15 +5,29 @@
         <p class="text-title">{{ book.title }}</p>
         <p class="text-body">책에 대한 요약이나 관련 리뷰를 보여줄수 있을까...?</p>
       </div>
-      <button class="card-button">More info</button>
+      <button @click="goBookDetail" class="card-button">More info</button>
     </div>
   </div>
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router';
+
+const router = useRouter()
+
 const props = defineProps({
   book: Object,
 })
+
+const goBookDetail = function () {
+  console.log(props.book.title)
+  router.push({
+    name: 'BookDetail',
+    params: { isbn: props.book.isbn },
+  })
+}
+
+
 </script>
 
 <style scoped>

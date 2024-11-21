@@ -34,7 +34,7 @@ const router = createRouter({
           component: BookList,
         },
         {
-          path: "book/:id",
+          path: "bookdetail",
           name: "BookDetail",
           component: BookDetail,
           props: true, // URL의 :id를 컴포넌트의 props로 전달
