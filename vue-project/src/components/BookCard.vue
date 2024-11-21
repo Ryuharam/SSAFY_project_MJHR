@@ -1,10 +1,8 @@
 <template>
   <div>
-    <h5>BookCard</h5>
-    <hr>
     <div class="card">
       <div class="card-details">
-        <p class="text-title">책 제목</p>
+        <p class="text-title">{{ book.title }}</p>
         <p class="text-body">책에 대한 요약이나 관련 리뷰를 보여줄수 있을까...?</p>
       </div>
       <button class="card-button">More info</button>
@@ -13,7 +11,9 @@
 </template>
 
 <script setup>
-
+const props = defineProps({
+  book: Object,
+})
 </script>
 
 <style scoped>
@@ -26,6 +26,7 @@
   position: relative;
   padding: 1.8rem;
   border: 2px solid #c3c6ce;
+  margin: 0.5rem;
   transition: 0.5s ease-out;
   overflow: visible;
 }
