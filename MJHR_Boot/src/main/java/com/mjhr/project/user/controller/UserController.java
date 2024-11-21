@@ -67,7 +67,6 @@ public class UserController {
 		if (loginUser != null) {
 			result.put("message", "login 성공");
 			result.put("access-token", jwtUtil.createToken(loginUser.getUserId()));
-			// id도 같이 넘겨주면 번거로운 작업을 할 필요는 없어
 			status = HttpStatus.ACCEPTED;
 		} else {
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
