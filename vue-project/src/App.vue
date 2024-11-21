@@ -22,10 +22,26 @@
   </nav>
   <h1>1. App.vue</h1>
   <hr>
+  <button @click="login">Go to Login</button>
+  <RouterView />
   <RouterView />
 </template>
 
 <script>
+
+import { ref } from "vue";
+import { useUserStore } from '@/stores/userStore';
+
+const store = useUserStore();
+
+const id = ref('');
+const password = ref('');
+
+const login = function () {
+  store.userLogin(id.value, password.value)
+}
+
+
 
 </script>
 

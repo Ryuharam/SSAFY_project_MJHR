@@ -36,8 +36,8 @@ public class UserServiceImpl implements UserService {
 	@Override // 로그인
 	public User login(String id, String password) {
 		Map<String, String> info = new HashMap<>();
-		info.put("id", id);
-		info.put("password", password);
+		info.put("userId", id);
+		info.put("userPw", password);
 		User tmp = dao.selectOne(info);
 		return tmp;
 	}

@@ -1,4 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { useUserStore } from '@/stores/userStore'
+
 // 레이아웃 컴포넌트 import
 import MainLayout from "../layouts/MainLayout.vue";
 import AuthLayout from "../layouts/AuthLayout.vue";
@@ -74,6 +76,15 @@ const router = createRouter({
       ],
     },
   ],
+})
+
+router.beforeEach((to, from) => {
+
+  const userStore = useUserStore()
+  if (!userStore.loginUser && to.name !== 'Login') {
+    console.log("로그인이 필요합니다.")
+    return { name: 'Login' }
+  }
 })
 
 export default router
