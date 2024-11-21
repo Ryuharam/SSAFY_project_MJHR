@@ -24,10 +24,9 @@
   <hr>
   <button @click="login">Go to Login</button>
   <RouterView />
-  <RouterView />
 </template>
 
-<script>
+<script setup>
 
 import { ref } from "vue";
 import { useUserStore } from '@/stores/userStore';

@@ -10,7 +10,7 @@ export const useUserStore = defineStore('user', () => {
 
     const userLogin = function (id, password) {
         //axios.post()로 REST API 서버에 로그인 요청을 보냄
-        axios.post(`${REST_API_URL}/login`, { 
+        axios.post(`${REST_API_URL}/login`, {
             userId: id,
             userPw: password,
         })
@@ -20,7 +20,7 @@ export const useUserStore = defineStore('user', () => {
                 //브라우저의 세션 스토리지에 엑세스 토큰 저장  -> 토큰은 인증에 사용
                 const token = res.data['access-token'].split('.')
                 const name = JSON.parse(atob(token[1]))['name']
-                   
+
                 console.log(token);
                 console.log(name);
 
