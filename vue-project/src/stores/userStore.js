@@ -7,33 +7,51 @@ const REST_API_URL = `http://localhost:8080/user`
 
 export const useUserStore = defineStore('user', () => {
     const loginUser = ref(null)
+    const accessToken = ref(null)
 
     const userLogin = function (id, password) {
-        //axios.post()로 REST API 서버에 로그인 요청을 보냄
-        axios.post(`${REST_API_URL}/login`, { 
+        axios.post(`${REST_API_URL}/login`, {
             userId: id,
             userPw: password,
         })
             .then((res) => {
                 console.log(res)
-                sessionStorage.setItem('access-token', res.data['access-token'])
-                //브라우저의 세션 스토리지에 엑세스 토큰 저장  -> 토큰은 인증에 사용
-                const token = res.data['access-token'].split('.')
+                accessToken.value = res.data['access-token']
+                const token = accessToken.value.split('.')
                 const name = JSON.parse(atob(token[1]))['name']
-                   
+
                 console.log(token);
                 console.log(name);
 
-                loginUser.value = name //loginUser 변수에 추출된 사용자 이름 저장 
+                loginUser.value = name
 
-                router.push({ name: 'Home' }) //로그인 성공->App(메인)로 리다이렉트
-
+                router.push({ name: 'Home' })
             })
             .catch((err) => {
                 console.log(err)
-                router.push({ name: 'Login' }) //로그인 실패 -> Login으로 리다이렉트 
+                router.push({ name: 'Login' })
             })
     }
 
-    return { loginUser, userLogin }
+    const checkLoginStatus = () => {
+        const userStore = useUserStore()
+        if (accessToken.value) {
+            // 필요한 경우 백엔드에서 토큰 유효성 검사
+            // 유효하다면 loginUser 설정
+            const token = userStore.accessToken.split('.')
+            userStore.loginUser = JSON.parse(atob(token[1]))['name']
+        } else {
+            router.push({ name: 'Login' })
+        }
+    }
+
+    const logout = () => {
+        loginUser.value = null
+        accessToken.value = null
+        router.push({ name: 'Login' })
+    }
+
+    return { loginUser, accessToken, userLogin, logout, checkLoginStatus }
+}, {
+    persist: true
 })
