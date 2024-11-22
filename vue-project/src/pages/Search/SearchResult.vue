@@ -21,9 +21,9 @@
       {{ category }}
       <div v-if="category === 'book'">
         <h4>책 검색 결과</h4>
-        <!-- <ul>
+        <ul>
           <li v-for="(result, index) in store.results" :key="index">{{ result.title }}</li>
-        </ul> -->
+        </ul>
       </div>
       <div v-else-if="category === 'review'">
         <h4>리뷰 검색 결과</h4>
