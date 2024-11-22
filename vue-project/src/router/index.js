@@ -88,10 +88,12 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from) => {
-
   const userStore = useUserStore()
-  if (!userStore.loginUser && to.name !== 'Login') {
-    console.log("로그인이 필요합니다.")
+  //Settings, MyPage만 로그인x에서 접근 불가능
+  const restrictedPages = ['/auth/settings', '/auth/mypage']
+
+  if (!userStore.loginUser && restrictedPages.includes(to.path)) {
+    console.log("이 페이지는 로그인이 필요합니다.")
     return { name: 'Login' }
   }
 })

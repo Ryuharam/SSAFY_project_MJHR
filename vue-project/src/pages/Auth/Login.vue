@@ -13,7 +13,6 @@
 <script setup>
 import { ref } from 'vue';
 import { useUserStore } from '@/stores/userStore';
-import axios from 'axios';
 
 const store = useUserStore();
 const id = ref('')
