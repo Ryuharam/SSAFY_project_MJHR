@@ -32,9 +32,13 @@ const router = createRouter({
           component: Home,
         },
         {
-          path: "search",
+          path: "search/:category?",
           name: "SearchResult",
           component: SearchResult,
+          props: route => ({
+            category: route.params.category || "all", // 기본값 설정
+            word: route.query.word, // 쿼리에서 word 가져오기
+          }),
         },
       ],
     },
@@ -94,6 +98,7 @@ router.beforeEach((to, from) => {
     console.log("로그인이 필요합니다.")
     return { name: 'Login' }
   }
+
 })
 
 export default router

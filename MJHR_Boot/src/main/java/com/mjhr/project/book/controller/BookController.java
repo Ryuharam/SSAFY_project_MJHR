@@ -69,6 +69,7 @@ public class BookController {
 	    if (orderDir == null || (!"ASC".equalsIgnoreCase(orderDir) && !"DESC".equalsIgnoreCase(orderDir))) {
 	        orderDir = "ASC"; // 기본값 설정
 	    }
+	    
 
 	    // 검색 조건 객체 생성 및 설정
 	    SearchCondition condition = new SearchCondition();
@@ -76,6 +77,11 @@ public class BookController {
 	    condition.setWord(getCondition.getWord());
 	    condition.setOrderBy(orderBy);
 	    condition.setOrderDir(orderDir);
+	    
+	    String limitNum = getCondition.getLimitNum();
+	    if(limitNum != null) {
+	    	condition.setLimitNum(limitNum);
+	    }
 
 	    // 서비스 호출
 	    List<Book> result = service.searchBook(condition);
