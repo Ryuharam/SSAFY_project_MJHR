@@ -6,7 +6,7 @@ import router from '@/router'
 const REST_API_URL = `http://localhost:8080/user`
 
 export const useUserStore = defineStore('user', () => {
-    const loginUser = ref("dev")
+    const loginUser = ref(null)
 
     const userLogin = function (id, password) {
         //axios.post()로 REST API 서버에 로그인 요청을 보냄
