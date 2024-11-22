@@ -6,14 +6,18 @@
 
 	<!-- 비활성화된 데이터 포함 모든 책 조회 -->
 	<select id="selectAllWithInactive" resultType="Book">
-		SELECT * FROM books;
+		SELECT * FROM books
 	</select>
 
 	<!-- 모든 책 조회 (활성화된 데이터만 조회) -->
 	<select id="selectAll" resultType="Book">
 		SELECT * FROM books
 		WHERE
-		status = 'ACTIVE';
+		status = 'ACTIVE'
+		<if test="limitNum != null">
+				LIMIT #{limitNum}
+		</if>
+		;
 	</select>
 
 	<!-- 특정 책 조회 (활성화된 데이터만 조회) -->

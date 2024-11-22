@@ -32,9 +32,13 @@ const router = createRouter({
           component: Home,
         },
         {
-          path: "search",
+          path: "search/:category?",
           name: "SearchResult",
           component: SearchResult,
+          props: route => ({
+            category: route.params.category || "all", // 기본값 설정
+            word: route.query.word, // 쿼리에서 word 가져오기
+          }),
         },
       ],
     },

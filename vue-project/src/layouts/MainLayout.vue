@@ -11,7 +11,7 @@
   <RouterView />
 </template>
 
-<script>
+<script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 
@@ -19,6 +19,7 @@ const word = ref("");
 const router = useRouter();
 
 const doSearch = function () {
+  console.log("호출")
   if (word.value.trim() === "") {
     alert("공백은 입력될 수 없습니다");
     return;

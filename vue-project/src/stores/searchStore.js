@@ -6,11 +6,12 @@ const BASE_API_URL = `http://localhost:8080/`;
 
 export const useSearchStore = defineStore('result', () => {
   const searchCondition = ref({
-    category: "book",
-    key: "title",
-    word: "b",
-    orderBy: "title",
-    orderDir: "DESC",
+    category: "",
+    key: "",
+    word: "",
+    orderBy: "",
+    orderDir: "",
+    limitNum: "",
   });
 
   const results = ref([]);
@@ -21,6 +22,7 @@ export const useSearchStore = defineStore('result', () => {
 
     loading.value = true;
     error.value = null;
+
     try {
       // 동적으로 URL 생성
       const searchUrl = `${BASE_API_URL}${searchCondition.value.category}/search`;
@@ -31,6 +33,7 @@ export const useSearchStore = defineStore('result', () => {
           word: searchCondition.value.word,
           orderBy: searchCondition.value.orderBy,
           orderDir: searchCondition.value.orderDir,
+          limitNum: searchCondition.value.limitNum,
         },
       });
       results.value = response.data;
@@ -45,5 +48,6 @@ export const useSearchStore = defineStore('result', () => {
   return {
     searchCondition,
     getSearchResults,
+    results,
   };
 });
