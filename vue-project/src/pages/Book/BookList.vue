@@ -1,33 +1,23 @@
 <template>
   <h5>BookList</h5>
   <div class="book-list">
-    <div class="book" v-for="(book, index) in store.bookList" :key="index">
+    <div class="book" v-for="(book, index) in results" :key="index">
       <BookCard :book="book" />
     </div>
   </div>
 </template>
 
-<script>
-import { onMounted } from "vue";
-import { useBookStore } from "@/stores/bookStore";
+<script setup>
+import { defineProps } from 'vue';
 import BookCard from "@/components/BookCard.vue";
 
-export default {
-  components: {
-    BookCard,
+// 부모 컴포넌트로부터 전달받을 props 정의
+defineProps({
+  results: {
+    type: Array,
+    required: true,
   },
-  setup() {
-    const store = useBookStore(); // setup 안에서 호출
-
-    onMounted(() => {
-      store.getBookList();
-    });
-
-    return {
-      store,
-    };
-  },
-};
+});
 </script>
 
 <style scoped>
