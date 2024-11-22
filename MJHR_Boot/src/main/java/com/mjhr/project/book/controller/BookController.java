@@ -50,13 +50,43 @@ public class BookController {
 	// 도서 검색
 	@Operation(summary = "도서 검색", description = "도서 검색, key는 title, author, publisher만 가능")
 	@GetMapping("/search")
-	public ResponseEntity<?> searchBook(@ModelAttribute SearchCondition condition){
-		List<Book> result = service.searchBook(condition);
-		if(result==null || result.size()==0) {
-			return new ResponseEntity<>("검색 결과가 없습니다.", HttpStatus.NOT_FOUND);
-		}
-		return new ResponseEntity<>(result, HttpStatus.OK);
+	public ResponseEntity<?> searchBook(@ModelAttribute SearchCondition getCondition) {
+		
+		System.out.println(getCondition);
+		
+	    // 검증 및 기본값 설정
+	    String key = getCondition.getKey();
+	    if (!"title".equals(key) && !"author".equals(key) && !"publisher".equals(key) ) {
+	        return new ResponseEntity<>("key 값은 title, author, publisher만 가능합니다.", HttpStatus.BAD_REQUEST);
+	    }
+
+	    String orderBy = getCondition.getOrderBy();
+	    if (orderBy == null || (!"title".equals(orderBy) && !"author".equals(orderBy))) {
+	        return new ResponseEntity<>("orderBy 값은 'title' 또는 'author'만 가능합니다.", HttpStatus.BAD_REQUEST);
+	    }
+
+	    String orderDir = getCondition.getOrderDir();
+	    if (orderDir == null || (!"ASC".equalsIgnoreCase(orderDir) && !"DESC".equalsIgnoreCase(orderDir))) {
+	        orderDir = "ASC"; // 기본값 설정
+	    }
+
+	    // 검색 조건 객체 생성 및 설정
+	    SearchCondition condition = new SearchCondition();
+	    condition.setKey(key);
+	    condition.setWord(getCondition.getWord());
+	    condition.setOrderBy(orderBy);
+	    condition.setOrderDir(orderDir);
+
+	    // 서비스 호출
+	    List<Book> result = service.searchBook(condition);
+
+	    if (result == null || result.isEmpty()) {
+	        return new ResponseEntity<>("검색 결과가 없습니다.", HttpStatus.NOT_FOUND);
+	    }
+
+	    return new ResponseEntity<>(result, HttpStatus.OK);
 	}
+
 
 	@Operation(summary = "도서 등록", description = "도서 등록")
 	@PostMapping()

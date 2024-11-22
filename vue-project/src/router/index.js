@@ -4,6 +4,7 @@ import { useUserStore } from '@/stores/userStore'
 // 레이아웃 컴포넌트 import
 import MainLayout from "../layouts/MainLayout.vue";
 import AuthLayout from "../layouts/AuthLayout.vue";
+import BookLayout from "../layouts/BookLayout.vue";
 
 // 페이지 컴포넌트 import
 import Home from "../pages/Main/Home.vue";
@@ -31,22 +32,30 @@ const router = createRouter({
           component: Home,
         },
         {
-          path: "book",
-          name: "BookList",
-          component: BookList,
-        },
-        {
-          path: "bookdetail",
-          name: "BookDetail",
-          component: BookDetail,
-          props: true, // URL의 :id를 컴포넌트의 props로 전달
-        },
-        {
           path: "search",
           name: "SearchResult",
           component: SearchResult,
         },
       ],
+    },
+    // 도서 레이아웃
+    {
+      path: "/book",
+      name: "BookLayout",
+      component: BookLayout,
+      children: [
+        {
+          path: "list",
+          name: "BookList",
+          component: BookList,
+        },
+        {
+          path: "detail",
+          name: "BookDetail",
+          component: BookDetail,
+        },
+      ],
+
     },
     // 인증 레이아웃
     {
