@@ -27,6 +27,8 @@ export const useSearchStore = defineStore('result', () => {
       // 동적으로 URL 생성
       const searchUrl = `${BASE_API_URL}${searchCondition.value.category}/search`;
 
+      console.log(searchUrl)
+
       const response = await axios.get(searchUrl, {
         params: {
           key: searchCondition.value.key,

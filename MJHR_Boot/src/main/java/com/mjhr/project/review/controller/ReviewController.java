@@ -73,6 +73,9 @@ public class ReviewController {
 	@Operation(summary = "독후감 검색", description = "검색 조건에 따라 독후감을 검색합니다")
 	@GetMapping("/search")
 	public ResponseEntity<?> searchReviewByKey(@ModelAttribute SearchCondition condition){
+		
+		System.out.println(condition);
+		
 		List<Review> result = service.searchReview(condition);
 		if(result==null || result.size()==0) return new ResponseEntity<>("리뷰를 찾지 못했습니다.", HttpStatus.NOT_FOUND); 
 		return new ResponseEntity<>(result, HttpStatus.OK);

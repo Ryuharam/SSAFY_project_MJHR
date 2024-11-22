@@ -28,6 +28,9 @@ const doSearch = function () {
   // SearchResult 페이지로 이동하며 검색어 전달
   router.push({
     name: "SearchResult",
+    params: {
+      category: "book",
+    },
     query: {
       word: word.value,
     },

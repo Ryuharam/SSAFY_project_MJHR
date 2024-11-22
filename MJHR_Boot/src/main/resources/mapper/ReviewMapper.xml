@@ -25,8 +25,8 @@
                 AND ${key} LIKE CONCAT('%', #{word}, '%')
             </if>
         </where>
-        <if test="orderBy != null and orderByDir != null">
-            ORDER BY ${orderBy} ${orderByDir}
+        <if test="orderBy != null and orderDir != null">
+            ORDER BY ${orderBy} ${orderDir}
         </if>
     </select>
 
