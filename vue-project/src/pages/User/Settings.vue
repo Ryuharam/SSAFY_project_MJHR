@@ -1,54 +1,73 @@
 <template>
   <div class="settings-container">
-      <div class="profile-section">
-          <img :src="profileImage" alt="프로필 이미지" class="profile-image" @click="changeProfileImage">
-      </div>
-      
-      <div class="info-section">
-          <button class="info-button">한 줄 소개</button>
-          <div class="intro-text">
-              <p>소개</p>
-          </div>
-      </div>
-
-      <div class="book-section">
-          <div class="book-header">
-              <button class="active">리뷰</button>
-              <button>찜</button>
-          </div>
-          <div class="book-list">
-              <div class="book-item" v-for="(book, index) in books" :key="index">
-                  <img :src="book.image" alt="책 표지">
-                  <p>제목</p>
-              </div>
-          </div>
-      </div>
+    <div class="profile-section">
+      <img :src="profileImage" alt="프로필 이미지" class="profile-image" @click="changeProfileImage">
+    </div>
+    
+    <div class="info-section">
+      <form @submit.prevent="updateInfo">
+        <div class="form-group">
+          <label for="shortIntro">한 줄 소개:</label>
+          <input type="text" id="shortIntro" v-model="shortIntro" placeholder="한 줄 소개를 입력하세요">
+        </div>
+        <div class="form-group">
+          <label for="fullIntro">소개:</label>
+          <textarea id="fullIntro" v-model="fullIntro" placeholder="소개를 입력하세요"></textarea>
+        </div>
+        <button type="submit" class="update-button">정보 업데이트</button>
+      </form>
+    </div>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 import axios from 'axios';
 
+const router = useRouter();
 const URL = 'https://api.thecatapi.com/v1/images/search';
 const profileImage = ref('');
-const books = ref([
-  { image: '/book1.jpg', title: '제목1' },
-  { image: '/book2.jpg', title: '제목2' },
-  { image: '/book3.jpg', title: '제목3' }
-]);
+const shortIntro = ref('');
+const fullIntro = ref('');
 
 const changeProfileImage = async () => {
   try {
-      const response = await axios.get(URL);
-      profileImage.value = response.data[0].url;
+    const response = await axios.get(URL);
+    profileImage.value = response.data[0].url;
   } catch (error) {
-      console.error('프로필 이미지 변경 실패:', error);
+    console.error('프로필 이미지 변경 실패:', error);
+  }
+};
+
+const updateInfo = async () => {
+  try {
+    // localStorage에 데이터 저장
+    localStorage.setItem('userInfo', JSON.stringify({
+      profileImage: profileImage.value,
+      shortIntro: shortIntro.value,
+      fullIntro: fullIntro.value
+    }));
+
+    console.log('정보가 업데이트되었습니다:', { shortIntro: shortIntro.value, fullIntro: fullIntro.value });
+    alert('정보가 성공적으로 업데이트되었습니다!');
+    // MyPage로 이동
+    router.push('/auth/mypage');
+  } catch (error) {
+    console.error('정보 업데이트 실패:', error);
+    alert('정보 업데이트에 실패했습니다. 다시 시도해주세요.');
   }
 };
 
 onMounted(async () => {
   await changeProfileImage();
+  // 기존에 저장된 정보가 있다면 불러오기
+  const savedInfo = JSON.parse(localStorage.getItem('userInfo'));
+  if (savedInfo) {
+    profileImage.value = savedInfo.profileImage || '';
+    shortIntro.value = savedInfo.shortIntro || '';
+    fullIntro.value = savedInfo.fullIntro || '';
+  }
 });
 </script>
 
@@ -71,6 +90,40 @@ onMounted(async () => {
 
 .info-section {
   margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+input[type="text"],
+textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+textarea {
+  height: 100px;
+}
+
+.update-button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.update-button:hover {
+  background-color: #45a049;
 }
 
 .book-header {
