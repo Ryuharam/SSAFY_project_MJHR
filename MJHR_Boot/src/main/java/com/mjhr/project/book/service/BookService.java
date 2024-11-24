@@ -7,8 +7,6 @@ import com.mjhr.project.common.dto.SearchCondition;
 
 public interface BookService {
 	
-	// 전체 도서 조회
-	List<Book> getAllBook();
 	
 	// isbn에 해당하는 도서 조회
 	Book getBookByIsbn(String isbn);
@@ -24,4 +22,10 @@ public interface BookService {
 	
 	// 도서 수정
 	boolean modifyBook(Book book);
+
+	List<Book> getAllBooks(int page, int size);
+
+	int getTotalBookCount();
+
+	int getSearchResultCount(SearchCondition condition);
 }

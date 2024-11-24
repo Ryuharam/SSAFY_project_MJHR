@@ -1,10 +1,18 @@
 <template>
   <div>
     <div class="card">
+      <!-- 이미지 섹션 -->
+      <div 
+        class="card-img" 
+        :style="{ backgroundImage: `url(${book.image})` }">
+      </div>
+
+      <!-- 상세 정보 섹션 -->
       <div class="card-details">
         <p class="text-title">{{ book.title }}</p>
-        <p class="text-body">책에 대한 요약이나 관련 리뷰를 보여줄수 있을까...?</p>
+        <p class="text-body">{{ book.author }}</p>
       </div>
+
       <button @click="goBookDetail" class="card-button">More info</button>
     </div>
   </div>
@@ -33,24 +41,42 @@ const goBookDetail = function () {
 <style scoped>
 /* From Uiverse.io by alexruix */
 .card {
+  position: relative;
   width: 190px;
   height: 254px;
   border-radius: 20px;
+  overflow: visible;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 15px;
   background: #f5f5f5;
-  position: relative;
-  padding: 1.8rem;
   border: 2px solid #c3c6ce;
   margin: 0.5rem;
   transition: 0.5s ease-out;
-  overflow: visible;
+  padding: 15px;
+}
+/* 이미지 섹션 */
+.card-img {
+  width: 100%;
+  height: 60%; /* 카드 상단의 60%를 이미지로 사용 */
+  background-size: cover; /* 이미지를 잘라서 카드에 맞춤 */
+  background-position: center; /* 이미지를 중앙 정렬 */
+  border-bottom: 2px solid #ddd; /* 이미지와 상세 정보 구분선 */
 }
 
 .card-details {
+  width: 90%;
+  height: 40%; /* 카드 상단의 60%를 이미지로 사용 */
+  background: rgba(164, 119, 119, 0.2); /* 텍스트를 읽기 쉽게 반투명 배경 */
+  padding: 10px;
+  border-radius: 5px;
   color: black;
-  height: 100%;
-  gap: .5em;
+  gap: .1em;
   display: grid;
   place-content: center;
+  overflow: hidden; /* 넘치는 텍스트 숨김 */
+  text-overflow: ellipsis; /* 줄임표 추가 */
 }
 
 .card-button {
@@ -69,14 +95,22 @@ const goBookDetail = function () {
   transition: 0.3s ease-out;
 }
 
-.text-body {
-  color: rgb(134, 134, 134);
-}
 
 /*Text*/
 .text-title {
-  font-size: 1.5em;
+  font-size: 1em;
   font-weight: bold;
+  color: rgba(89, 20, 20, 0.5);
+  margin: auto;
+  white-space: nowrap; /* 텍스트를 한 줄로 제한 */
+  overflow: hidden; /* 넘치는 텍스트 숨김 */
+  text-overflow: ellipsis; /* 줄임표 추가 */
+  width: 100%; /* 텍스트 줄임표를 적용할 영역 크기 설정 */
+}
+
+.text-body {
+  color: rgb(27, 4, 4);
+  margin: auto;
 }
 
 /*Hover*/

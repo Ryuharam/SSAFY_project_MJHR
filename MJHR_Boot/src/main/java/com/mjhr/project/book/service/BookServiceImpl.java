@@ -18,9 +18,16 @@ public class BookServiceImpl implements BookService {
 	}
 
 	@Override
-	public List<Book> getAllBook() {
-		return dao.selectAll();
+	public List<Book> getAllBooks(int page, int size) {
+	    int offset = (page - 1) * size; // 시작 위치 계산
+	    return dao.selectAllOrdered(offset, size);
 	}
+	
+	@Override
+	public int getTotalBookCount() {
+	    return dao.selectTotalBookCount();
+	}
+
 
 	@Override
 	public Book getBookByIsbn(String isbn) {
@@ -29,11 +36,12 @@ public class BookServiceImpl implements BookService {
 
 	@Override
 	public List<Book> searchBook(SearchCondition condition) {
-		System.out.println(condition.toString());
-		String key = condition.getKey();
-		
-		if(!"title".equals(key) && !"author".equals(key) && "publisher".equals(key)) return null;
-		return dao.search(condition);
+	    return dao.search(condition);
+	}
+
+	@Override
+	public int getSearchResultCount(SearchCondition condition) {
+	    return dao.getSearchResultCount(condition);
 	}
 
 	@Override

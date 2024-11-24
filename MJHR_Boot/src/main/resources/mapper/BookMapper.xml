@@ -6,19 +6,45 @@
 
 	<!-- 비활성화된 데이터 포함 모든 책 조회 -->
 	<select id="selectAllWithInactive" resultType="Book">
-		SELECT * FROM books
+		SELECT * FROM
+		books
 	</select>
 
-	<!-- 모든 책 조회 (활성화된 데이터만 조회) -->
-	<select id="selectAll" resultType="Book">
-		SELECT * FROM books
+	<!-- 모든 책 조회 (페이징 적용) -->
+	<select id="selectAllOrdered" parameterType="int"
+		resultType="Book">
+		SELECT
+		b.isbn,
+		b.title,
+		b.author,
+		b.publisher,
+		b.image,
+		b.pubdate,
+		b.status,
+		COALESCE(COUNT(bl.book_like_id), 0) AS like_count
+		FROM
+		books b
+		LEFT JOIN
+		book_like bl ON b.isbn = bl.isbn AND bl.status =
+		'ACTIVE'
 		WHERE
-		status = 'ACTIVE'
-		<if test="limitNum != null">
-				LIMIT #{limitNum}
-		</if>
-		;
+		b.status = 'ACTIVE'
+		GROUP BY
+		b.isbn
+		ORDER BY
+		like_count DESC,
+		-- 좋아요 수 내림차순
+		b.pubdate DESC -- 제목 오름차순
+		LIMIT #{size} OFFSET #{offset};
 	</select>
+
+	<!-- 전체 도서 수 조회 -->
+	<select id="selectTotalBookCount" resultType="int">
+		SELECT COUNT(*)
+		FROM books WHERE status = 'ACTIVE';
+	</select>
+
+
 
 	<!-- 특정 책 조회 (활성화된 데이터만 조회) -->
 	<select id="select" parameterType="String" resultType="Book">
@@ -27,20 +53,47 @@
 		WHERE isbn = #{isbn} AND status = 'ACTIVE';
 	</select>
 
-	<!-- 검색 조건에 따른 책 조회 (활성화된 데이터만 조회) -->
+	<!-- 검색 조건에 따른 책 조회 (페이징 적용) -->
 	<select id="search" parameterType="SearchCondition"
 		resultType="Book">
-		SELECT * FROM books
+		SELECT
+		b.isbn,
+		b.title,
+		b.author,
+		b.publisher,
+		b.image,
+		b.pubdate,
+		b.status,
+		COALESCE(COUNT(bl.book_like_id), 0) AS like_count
+		FROM
+		books b
+		LEFT JOIN
+		book_like bl ON b.isbn = bl.isbn AND bl.status = 'ACTIVE'
 		<where>
-			status = 'ACTIVE' <!-- 비활성화된 데이터 제외 -->
+			b.status = 'ACTIVE' <!-- 비활성화된 데이터 제외 -->
 			<if test="key != null and word != null">
 				AND ${key} LIKE CONCAT('%', #{word}, '%')
 			</if>
 		</where>
-		<if test="orderBy != null and orderDir != null">
-			ORDER BY ${orderBy} ${orderDir}
-		</if>
+		GROUP BY
+		b.isbn
+		ORDER BY
+		${orderBy} ${orderDir}
+		LIMIT #{size} OFFSET #{offset};
 	</select>
+
+	<!-- 검색 결과 총 개수 조회 -->
+	<select id="getSearchResultCount"
+		parameterType="SearchCondition" resultType="int">
+		SELECT COUNT(*) FROM books
+		<where>
+			status = 'ACTIVE'
+			<if test="key != null and word != null">
+				AND ${key} LIKE CONCAT('%', #{word}, '%')
+			</if>
+		</where>
+	</select>
+
 
 	<!-- 책 추가 -->
 	<insert id="insert" parameterType="Book">
@@ -48,8 +101,9 @@
 		title, author, publisher, book_img,
 		publication_date, status)
 		VALUES
-		(#{isbn}, #{title}, #{author}, #{publisher}, #{bookImg},
-		#{publicationDate}, 'ACTIVE');
+		(#{isbn}, #{title}, #{author}, #{publisher}, #{image},
+		#{pubdate},
+		'ACTIVE');
 	</insert>
 
 	<!-- 책 비활성화 (삭제 대신 비활성화로 대체) -->
@@ -65,10 +119,11 @@
 		UPDATE books
 		SET title =
 		#{title}, author = #{author}, publisher = #{publisher},
-		book_img =
-		#{bookImg}, publication_date = #{publicationDate}
+		image =
+		#{image}, pubdate = #{pubdate}
 		WHERE isbn = #{isbn}
-		AND status = 'ACTIVE';
+		AND status =
+		'ACTIVE';
 	</update>
 
 </mapper>

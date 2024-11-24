@@ -36,7 +36,7 @@ const router = createRouter({
           name: "SearchResult",
           component: SearchResult,
           props: route => ({
-            category: route.params.category || "all", // 기본값 설정
+            category: route.params.category || "book", // 기본값 설정
             word: route.query.word, // 쿼리에서 word 가져오기
           }),
         },
@@ -54,9 +54,10 @@ const router = createRouter({
           component: BookList,
         },
         {
-          path: "detail",
+          path: "detail/:isbn",
           name: "BookDetail",
           component: BookDetail,
+          props: true, 
         },
       ],
 
