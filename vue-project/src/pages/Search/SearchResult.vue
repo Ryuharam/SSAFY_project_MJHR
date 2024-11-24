@@ -1,97 +1,76 @@
 <template>
   <nav>
-    <RouterLink :to="{ name: 'SearchResult', params: { category: 'book' }, query: { word: route.query.word } }">
-      책 검색
-    </RouterLink>
+    <button @click="showBookList">책 검색</button>
     |
-    <RouterLink :to="{ name: 'SearchResult', params: { category: 'review' }, query: { word: route.query.word } }">
-      리뷰 검색
-    </RouterLink>
+    <button @click="showReviewList">리뷰 검색</button>
   </nav>
 
   <div>
-    <h3>검색 결과 - {{ category }}</h3>
-    <div v-if="store.loading">검색 중...</div>
-    <div v-if="store.error">{{ store.error }}</div>
-
-    <div>
-      <div v-if="route.params.category == 'book'">
-        <BookList :results="result" />
-        <!-- <ul>
-          <li v-for="(result, index) in store.results" :key="index">
-            {{ result.title }}
-          </li>
-        </ul> -->
-      </div>
-      <div v-if="route.params.category == 'review'">
-        <ul>
-          <li v-for="(result, index) in store.results" :key="index">
-            {{ result.reviewTitle }}
-          </li>
-        </ul>
-      </div>
+    <h3>검색 결과</h3>
+    <!-- 로딩 상태 표시 -->
+    <div v-if="store.loading">검색 중입니다...</div>
+    <!-- 검색 결과 표시 -->
+    <component v-else :is="activeComponent" :results="store.results?.data || []"  />
     </div>
-  </div>
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from "vue";
+import { shallowRef, watch, onMounted } from "vue";
 import { useSearchStore } from "@/stores/searchStore";
-import { useRoute } from "vue-router";
-import BookList from "@/pages/Book/BookList.vue"
+import BookList from "@/pages/Book/BookList.vue";
+import ReviewList from "@/pages/Review/ReviewList.vue";
+
+const activeComponent = shallowRef(BookList);
+const store = useSearchStore();
 
 const props = defineProps({
-  category: String,
-  word: String,
+  category: String, // category를 명시적으로 선언
 });
 
-const store = useSearchStore();
-const route = useRoute();
+// props.category에 따라 초기값 설정
+watch(
+  () => props.category,
+  (newCategory) => {
+    if (newCategory === "book") {
+      activeComponent.value = BookList;
+    } else if (newCategory === "review") {
+      activeComponent.value = ReviewList;
+    }
+  },
+  { immediate: true }
+);
 
-const category = ref(route.params.category);
-const result = ref([])
 
-// 검색 결과를 가져오는 함수
-const fetchResults = async () => {
-  const word = route.query.word;
-  if (!word) {
-    store.error = "검색어가 제공되지 않았습니다.";
-    store.results = [];
-    return;
-  }
-
-  // 검색 조건 설정
-  store.searchCondition.word = word;
-  store.searchCondition.category = category.value;
-
-  if (category.value === "book") {
-    store.searchCondition.key = "title";
-    store.searchCondition.orderBy = "title";
-  } else if (category.value === "review") {
-    store.searchCondition.key = "review_title";
-    store.searchCondition.orderBy = "review_title";
-  }
-
-  try {
-    store.loading = true;
-    await store.getSearchResults();
-    result.value = store.results
-  } catch (error) {
-    store.error = "검색 중 오류가 발생했습니다.";
-  } finally {
-    store.loading = false;
-  }
+const showBookList = async () => {
+  activeComponent.value = BookList;
+  store.searchCondition.key = "title";
+  store.searchCondition.offset = 0; // 첫 페이지
+  store.searchCondition.size = 100; // 페이지 크기
+  await store.fetchBookResults();
 };
 
-// 컴포넌트가 마운트될 때와 라우트 변경 시 검색 실행
-onMounted(fetchResults);
+// 리뷰 검색 요청
+const showReviewList = async () => {
+  activeComponent.value = ReviewList;
+  store.searchCondition.key = "review_title";
+  store.searchCondition.orderBy = "review_title";
+  store.searchCondition.offset = 0; // 첫 페이지
+  store.searchCondition.size = 100; // 페이지 크기
+  await store.fetchReviewResults();
+  console.log("부모",store.results)
+};
+
+// 컴포넌트가 마운트되었을 때 기본적으로 책 검색 결과를 가져오도록 설정
+onMounted(() => {
+  showBookList(); // 초기 책 검색 결과 호출
+});
+
 watch(
-  () => [route.params.category, route.query.word],
-  ([newCategory]) => {
-    category.value = newCategory;
-    fetchResults();
+  () => store.results,
+  (newResults) => {
+    console.log("Store results updated:", newResults);
   }
-);
+)
 </script>
 
 <style scoped></style>

@@ -15,6 +15,9 @@ import Settings from "../pages/User/Settings.vue";
 import Signup from "../pages/Auth/Signup.vue";
 import MyPage from "../pages/User/MyPage.vue";
 import BookList from "../pages/Book/BookList.vue";
+import ReviewLayout from '@/layouts/ReviewLayout.vue';
+import ReviewList from '@/pages/Review/ReviewList.vue';
+import ReviewDetail from '@/pages/Review/ReviewDetail.vue';
 
 
 const router = createRouter({
@@ -32,13 +35,9 @@ const router = createRouter({
           component: Home,
         },
         {
-          path: "search/:category?",
+          path: "search",
           name: "SearchResult",
           component: SearchResult,
-          props: route => ({
-            category: route.params.category || "book", // 기본값 설정
-            word: route.query.word, // 쿼리에서 word 가져오기
-          }),
         },
       ],
     },
@@ -60,7 +59,25 @@ const router = createRouter({
           props: true, 
         },
       ],
-
+    },
+    // 리뷰 레이아웃
+    {
+      path:"/review",
+      name:"ReviewLayout",
+      component:ReviewLayout,
+      children:[
+        {
+          path:"list",
+          name:"ReviewList",
+          component:ReviewList
+        },
+        {
+          path:"detail/:reviewId",
+          name:"ReviewDetail",
+          component:ReviewDetail,
+          props:true,
+        },
+      ],
     },
     // 인증 레이아웃
     {

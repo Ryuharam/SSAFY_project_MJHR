@@ -6,7 +6,7 @@ SET SQL_SAFE_UPDATES = 0;
 UPDATE books SET pubdate = STR_TO_DATE(pubdate, '%Y%m%d') WHERE LENGTH(pubdate) = 8;
 SET SQL_SAFE_UPDATES = 1; -- 작업 후 다시 활성화
 
-
+SELECT * FROM books WHERE title = "잘자요";
 -----------------------------------------------------------------------
 -- 테이블 데이터만 지우기
 -- 외래키 제약조건 비활성화

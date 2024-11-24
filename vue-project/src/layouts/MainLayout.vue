@@ -8,33 +8,54 @@
     </form>
   </div>
   <hr>
-  <RouterView />
+  <RouterView v-slot="{ Component, route }">
+    <component
+      :is="Component"
+      v-bind="getPropsForRoute(route)"
+    />
+  </RouterView>
 </template>
 
 <script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
+import { useSearchStore } from "@/stores/searchStore";
 
 const word = ref("");
 const router = useRouter();
+const store = useSearchStore();
 
-const doSearch = function () {
-  console.log("호출")
+// 검색 실행
+const doSearch = async () => {
   if (word.value.trim() === "") {
     alert("공백은 입력될 수 없습니다");
     return;
   }
 
-  // SearchResult 페이지로 이동하며 검색어 전달
-  router.push({
-    name: "SearchResult",
-    params: {
-      category: "book",
-    },
-    query: {
-      word: word.value,
-    },
-  });
+  // 검색 조건 설정
+  store.searchCondition.word = word.value;
+  store.searchCondition.key = "title";
+  store.searchCondition.offset = 0;
+  store.searchCondition.size = 100;
+
+  // 검색 수행
+  await store.fetchBookResults();
+
+  if (store.results.length === 0) {
+    alert("검색 결과가 없습니다1.");
+    return;
+  }
+
+  // BookList로 이동
+  router.push("BookList");
+};
+
+// 특정 라우트에 props 전달
+const getPropsForRoute = (route) => {
+  if (route.name === "BookList") {
+    return { results: store.results }; // BookList로 이동할 때만 results 전달
+  }
+  return {};
 };
 
 </script>
