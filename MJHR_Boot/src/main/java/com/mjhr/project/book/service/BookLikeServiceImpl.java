@@ -19,7 +19,7 @@ public class BookLikeServiceImpl implements BookLikeService {
 
 	@Override
 	public boolean createBookLike(String userId, String isbn) {
-		return dao.insertLike(userId, isbn) == 1;
+		return dao.insertLike(userId, isbn) > 0;
 	}
 
 	@Override
@@ -46,5 +46,11 @@ public class BookLikeServiceImpl implements BookLikeService {
 	public int getBookLikeCount(String isbn) {
 		return dao.selectUserCount(isbn);
 	}
+
+	@Override
+	public boolean isBookLikedByUser(String userId, String isbn) {
+	    return dao.existsByUserIdAndIsbn(userId, isbn);
+	}
+
 
 }

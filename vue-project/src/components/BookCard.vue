@@ -68,7 +68,7 @@ const goBookDetail = function () {
 .card-details {
   width: 90%;
   height: 40%; /* 카드 상단의 60%를 이미지로 사용 */
-  background: rgba(164, 119, 119, 0.2); /* 텍스트를 읽기 쉽게 반투명 배경 */
+  background-color: #FFD2D2;
   padding: 10px;
   border-radius: 5px;
   color: black;
@@ -84,7 +84,7 @@ const goBookDetail = function () {
   width: 60%;
   border-radius: 1rem;
   border: none;
-  background-color: #008bf8;
+  background-color: #B90000;
   color: #fff;
   font-size: 1rem;
   padding: .5rem 1rem;
@@ -100,7 +100,7 @@ const goBookDetail = function () {
 .text-title {
   font-size: 1em;
   font-weight: bold;
-  color: rgba(89, 20, 20, 0.5);
+  color: #B95050;
   margin: auto;
   white-space: nowrap; /* 텍스트를 한 줄로 제한 */
   overflow: hidden; /* 넘치는 텍스트 숨김 */
@@ -115,7 +115,7 @@ const goBookDetail = function () {
 
 /*Hover*/
 .card:hover {
-  border-color: #008bf8;
+  border-color: #B22222;
   box-shadow: 0 4px 18px 0 rgba(0, 0, 0, 0.25);
 }
 

@@ -33,27 +33,39 @@ public class BookLikeController {
 	@Operation(summary = "도서 좋아요", description = "도서 좋아요 등록")
 	@PostMapping("/user/{userId}/book/{isbn}")
 	public ResponseEntity<?> clickBookLike(@PathVariable("userId") String userId, @PathVariable("isbn") String isbn) {
+	    System.out.println("userId : " + userId + " isbn : " + isbn);
 
-		System.out.println("userId : " + userId + "isbn : " + isbn);
-
-		if (service.createBookLike(userId, isbn)) {
-			return new ResponseEntity<>("좋아요 성공", HttpStatus.OK);
-		}
-		return new ResponseEntity<>("좋아요 실패", HttpStatus.BAD_REQUEST);
+	    if (service.createBookLike(userId, isbn)) {
+	        return ResponseEntity.ok("좋아요 성공");
+	    }
+	    return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 좋아요한 상태");
 	}
+
 
 	// 좋아요 취소
 	@Operation(summary = "도서 좋아요 취소", description = "도서 좋아요 삭제")
 	@DeleteMapping("/user/{userId}/book/{isbn}")
-	public ResponseEntity<?> clickBookUnlike(@PathVariable("userId") String userId, @PathVariable("isbn") String isbn) {
+	public ResponseEntity<Integer> clickBookUnlike(@PathVariable("userId") String userId, @PathVariable("isbn") String isbn) {
+	    System.out.println("userId : " + userId + ", isbn : " + isbn);
 
-		System.out.println("userId : " + userId + "isbn : " + isbn);
-
-		if (service.removeBookLike(userId, isbn)) {
-			return new ResponseEntity<>("좋아요 취소 성공", HttpStatus.OK);
-		}
-		return new ResponseEntity<>("좋아요 취소 실패", HttpStatus.BAD_REQUEST);
+	    if (service.removeBookLike(userId, isbn)) {
+	        int updatedLikeCount = service.getBookLikeCount(isbn); // 좋아요 수 재계산
+	        return ResponseEntity.ok(updatedLikeCount);
+	    }
+	    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(-1); // 실패 시 -1 반환
 	}
+
+	
+	@GetMapping("/user/{userId}/book/{isbn}")
+	public ResponseEntity<Boolean> isBookLikedByUser(
+	        @PathVariable("userId") String userId,
+	        @PathVariable("isbn") String isbn) {
+	    // 좋아요 상태 확인
+	    boolean isLiked = service.isBookLikedByUser(userId, isbn);
+	    return new ResponseEntity<>(isLiked, HttpStatus.OK);
+	}
+
+	
 
 	@Operation(summary = "사용자 좋아요 리스트 조회", description = "사용자가 좋아요한 도서 리스트를 조회합니다")
 	@GetMapping("/user/{userId}")

@@ -20,7 +20,7 @@
         </div>
         <div class="like">
           <div class="like-button">
-            <input class="on" id="heart" type="checkbox" />
+            <input class="on" id="heart" type="checkbox" :checked="isLiked" @change="toggleLike" />
             <label class="like" for="heart">
               <svg class="like-icon" fill-rule="nonzero" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -30,7 +30,7 @@
               <span class="like-text">Likes</span>
             </label>
             <span class="like-count one">{{ bookLike }}</span>
-            <span class="like-count two">{{ bookLike+1 }}</span>
+            <span class="like-count two">{{ bookLike }}</span>
           </div>
 
         </div>
@@ -47,9 +47,9 @@
 
 
 <script setup>
-import { defineProps, onMounted, computed } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import { useBookStore } from '@/stores/bookStore';
-import { userBookLikeStore } from '@/stores/bookLikeStore';
+import { useBookLikeStore } from '@/stores/bookLikeStore';
 
 // Props 정의
 const props = defineProps({
@@ -61,20 +61,59 @@ const props = defineProps({
 
 // Pinia 스토어 사용
 const store = useBookStore();
-const likeStore = userBookLikeStore();
+const likeStore = useBookLikeStore();
 
 // 반응형 상태
 const book = computed(() => store.book);
-const bookLike = computed(()=>likeStore.cntBookLike);
+const bookLike = computed(() => likeStore.cntBookLike);
+const isLiked = ref(false); // 좋아요 여부
+const isProcessing = ref(false); // 처리 중인지 여부
 
-// 컴포넌트 마운트 시 데이터 요청
-onMounted(() => {
+const updateLikeStatus = async () => {
+  await likeStore.checkUserLike(); // 좋아요 여부 갱신
+  await likeStore.getBookLike(); // 좋아요 수 갱신
+  isLiked.value = likeStore.isLiked; // 좋아요 상태 갱신
+};
+
+
+
+const toggleLike = async () => {
+  if (isProcessing.value) return; // 중복 요청 방지
+
+  isProcessing.value = true;
+  try {
+    if (isLiked.value) {
+      await likeStore.doBookUnlike();
+    } else {
+      await likeStore.doBookLike();
+    }
+    await updateLikeStatus(); // 좋아요 상태와 좋아요 수 동기화
+
+  } finally {
+    isProcessing.value = false; // 요청 완료 후 처리 가능 상태로 복구
+  }
+};
+
+
+// 컴포넌트 마운트 시 초기화
+onMounted(async () => {
   store.isbn = props.isbn; // 스토어에 isbn 전달
   likeStore.isbn = props.isbn;
-  store.getBookDetail(); // 도서 상세 정보 요청
-  likeStore.getBookLike();
-  console.log(bookLike)
+  await store.getBookDetail(); // 도서 상세 정보 요청
+  await likeStore.checkUserLike(); // 좋아요 상태 확인
+  await likeStore.getBookLike(); // 좋아요 수 확인
+  await updateLikeStatus(); // 좋아요 상태와 수 업데이트
 });
+
+// ISBN 변경 감지
+watch(() => props.isbn, async () => {
+  store.isbn = props.isbn;
+  likeStore.isbn = props.isbn;
+  await store.getBookDetail();
+  await updateLikeStatus();
+});
+
+
 </script>
 
 <style scoped>
@@ -97,10 +136,13 @@ onMounted(() => {
 
 .detail-box {
   flex: 2;
-  position: relative; /* 자식 요소(absolute) 기준 위치 설정 */
+  position: relative;
+  /* 자식 요소(absolute) 기준 위치 설정 */
   display: flex;
-  flex-direction: column; /* 세로 정렬 */
-  justify-content: space-between; /* 요소를 위-아래로 분배 */
+  flex-direction: column;
+  /* 세로 정렬 */
+  justify-content: space-between;
+  /* 요소를 위-아래로 분배 */
 }
 
 
