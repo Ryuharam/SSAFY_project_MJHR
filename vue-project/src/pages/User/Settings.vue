@@ -1,7 +1,8 @@
 <template>
   <div class="settings-container">
     <div class="profile-section">
-      <img :src="profileImage" alt="프로필 이미지" class="profile-image" @click="changeProfileImage">
+      <img :src="profileImage" alt="프로필 이미지" class="profile-image" @click="triggerFileInput">
+      <input type="file" ref="fileInput" @change="changeProfileImage" accept="image/*" style="display: none;">
     </div>
     
     <div class="info-section">
@@ -23,20 +24,25 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import axios from 'axios';
 
 const router = useRouter();
-const URL = 'https://api.thecatapi.com/v1/images/search';
 const profileImage = ref('');
 const shortIntro = ref('');
 const fullIntro = ref('');
+const fileInput = ref(null);
 
-const changeProfileImage = async () => {
-  try {
-    const response = await axios.get(URL);
-    profileImage.value = response.data[0].url;
-  } catch (error) {
-    console.error('프로필 이미지 변경 실패:', error);
+const triggerFileInput = () => {
+  fileInput.value.click();
+};
+
+const changeProfileImage = (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      profileImage.value = e.target.result;
+    };
+    reader.readAsDataURL(file);
   }
 };
 
@@ -59,8 +65,7 @@ const updateInfo = async () => {
   }
 };
 
-onMounted(async () => {
-  await changeProfileImage();
+onMounted(() => {
   // 기존에 저장된 정보가 있다면 불러오기
   const savedInfo = JSON.parse(localStorage.getItem('userInfo'));
   if (savedInfo) {
@@ -124,22 +129,5 @@ textarea {
 
 .update-button:hover {
   background-color: #45a049;
-}
-
-.book-header {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
-.book-list {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-}
-
-.book-item img {
-  width: 100%;
-  height: auto;
 }
 </style>
