@@ -12,13 +12,14 @@ CREATE TABLE users (
 -- 책 테이블
 CREATE TABLE books (
     isbn VARCHAR(20) PRIMARY KEY,               -- ISBN은 고유하므로 PRIMARY KEY로 설정
-    title VARCHAR(255) NOT NULL,               -- 책 제목은 필수
-    author VARCHAR(255) NOT NULL,              -- 저자 이름, 길이를 100에서 255로 늘림 (긴 이름 고려)
-    publisher VARCHAR(255) NOT NULL,           -- 출판사, 길이를 100에서 255로 늘림
-    image VARCHAR(2083),                       -- 이미지 URL, 표준 URL 최대 길이에 맞춤
-    pubdate DATE NOT NULL,                     -- 출판일, DATE 타입 적합
+    title VARCHAR(255) NOT NULL,                -- 책 제목은 필수
+    author VARCHAR(255) NOT NULL,               -- 저자 이름
+    publisher VARCHAR(255) NOT NULL,            -- 출판사
+    image VARCHAR(2083),                        -- 이미지 URL
+    pubdate DATE NULL,                          -- 출판일 (NULL 허용, 데이터 변환 시 유용)
     status ENUM('ACTIVE', 'INACTIVE') DEFAULT 'ACTIVE' -- 활성화 상태
 );
+
 
 -- 독후감 테이블
 CREATE TABLE reviews (

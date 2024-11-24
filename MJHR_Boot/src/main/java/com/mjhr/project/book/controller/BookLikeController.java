@@ -102,16 +102,19 @@ public class BookLikeController {
 	@Operation(summary = " 도서를 좋아요한 사람 수", description = "도서를 좋아요 한 사람 수를 반환합니다.")
 	@GetMapping("/book/{isbn}/count")
 	public ResponseEntity<?> getBookLikeCount(@PathVariable("isbn") String isbn) {
+	    System.out.println("isbn : " + isbn);
 
-		System.out.println("isbn : " + isbn);
+	    try {
+	        int count = service.getBookLikeCount(isbn);
 
-		int count = service.getBookLikeCount(isbn);
-
-		if (count == 0) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-
-		return new ResponseEntity<>(count, HttpStatus.OK);
-
+	        // 좋아요가 없을 경우에도 0 반환
+	        return new ResponseEntity<>(count, HttpStatus.OK);
+	    } catch (Exception e) {
+	        // 예외 발생 시 로그 출력 및 500 에러 반환
+	        System.err.println("Error fetching like count: " + e.getMessage());
+	        e.printStackTrace();
+	        return new ResponseEntity<>("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
+	    }
 	}
+
 }

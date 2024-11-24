@@ -7,8 +7,8 @@ public class Book {
 	private String title;
 	private String author;
 	private String publisher;
-	private String bookImg;
-	private LocalDate publicationDate;
+	private String image;
+	private LocalDate pubdate;
 
 	public String getIsbn() {
 		return isbn;
@@ -42,26 +42,26 @@ public class Book {
 		this.publisher = publisher;
 	}
 
-	public String getBookImg() {
-		return bookImg;
+	public String getImage() {
+		return image;
 	}
 
-	public void setBookImg(String bookImg) {
-		this.bookImg = bookImg;
+	public void setImage(String image) {
+		this.image = image;
 	}
 
-	public LocalDate getPublicationDate() {
-		return publicationDate;
+	public LocalDate getPubdate() {
+		return pubdate;
 	}
 
-	public void setPublicationDate(LocalDate publicationDate) {
-		this.publicationDate = publicationDate;
+	public void setPubdate(LocalDate pubdate) {
+		this.pubdate = pubdate;
 	}
 
 	@Override
 	public String toString() {
 		return "Book [isbn=" + isbn + ", title=" + title + ", author=" + author + ", publisher=" + publisher
-				+ ", bookImg=" + bookImg + ", publicationDate=" + publicationDate + "]";
+				+ ", image=" + image + ", pubdate=" + pubdate + "]";
 	}
 
 }

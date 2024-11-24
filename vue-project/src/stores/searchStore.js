@@ -11,7 +11,7 @@ export const useSearchStore = defineStore('result', () => {
     word: "",
     orderBy: "",
     orderDir: "",
-    limitNum: "",
+    limitNum: "18",
   });
 
   const results = ref([]);
