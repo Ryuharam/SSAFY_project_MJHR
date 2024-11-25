@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,10 +29,42 @@ public class UserServiceImpl implements UserService {
 		return dao.selectAllUsers();
 	}
 
-	@Override // 사용자 정보 등록
-	public boolean signup(User user) {
-		return dao.insertUser(user) == 1;
+//	@Override // 사용자 회원가입
+//	public boolean registerUser(User user) {
+//		return dao.insertUser(user) == 1;
+//	}
+	
+	@Override
+	public boolean registerUser(User user) {
+	    // 이메일 필드 유효성 검사
+	    if (user.getEmail() == null || user.getEmail().trim().isEmpty()) {
+	        throw new IllegalArgumentException("이메일은 필수 입력 항목입니다.");
+	    }
+
+	    // 다른 필수 필드들의 유효성 검사
+	    if (user.getUserId() == null || user.getUserId().trim().isEmpty() ||
+	        user.getUserPw() == null || user.getUserPw().trim().isEmpty() ||
+	        user.getUserName() == null || user.getUserName().trim().isEmpty()) {
+	        throw new IllegalArgumentException("모든 필수 항목을 입력해주세요.");
+	    }
+
+	    // 이메일 형식 검사 (간단한 예시)
+	    if (!user.getEmail().matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
+	        throw new IllegalArgumentException("올바른 이메일 형식이 아닙니다.");
+	    }
+
+	    // 데이터베이스에 사용자 정보 삽입
+	    try {
+	        return dao.insertUser(user) == 1;
+	    } catch (DataIntegrityViolationException e) {
+	        // 데이터베이스 제약 조건 위반 (예: 중복된 이메일)
+	        throw new RuntimeException("이미 등록된 이메일입니다.", e);
+	    } catch (Exception e) {
+	        // 기타 예외 처리
+	        throw new RuntimeException("사용자 등록 중 오류가 발생했습니다.", e);
+	    }
 	}
+	
 
 	@Override // 로그인
 	public User login(String id, String password) {

@@ -4,29 +4,126 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mjhr.project.book.dao.BookDao">
 
-	<select id="selectAll" resultType="Book">
-	SELECT * FROM books;
+	<!-- 비활성화된 데이터 포함 모든 책 조회 -->
+	<select id="selectAllWithInactive" resultType="Book">
+		SELECT * FROM
+		books
 	</select>
-	
+
+	<!-- 모든 책 조회 (페이징 적용) -->
+	<select id="selectAllOrdered" parameterType="int"
+		resultType="Book">
+		SELECT
+		b.isbn,
+		b.title,
+		b.author,
+		b.publisher,
+		b.image,
+		b.pubdate,
+		b.status,
+		COALESCE(COUNT(bl.book_like_id), 0) AS like_count
+		FROM
+		books b
+		LEFT JOIN
+		book_like bl ON b.isbn = bl.isbn AND bl.status =
+		'ACTIVE'
+		WHERE
+		b.status = 'ACTIVE'
+		GROUP BY
+		b.isbn
+		ORDER BY
+		like_count DESC,
+		-- 좋아요 수 내림차순
+		b.pubdate DESC -- 제목 오름차순
+		LIMIT #{size} OFFSET #{offset};
+	</select>
+
+	<!-- 전체 도서 수 조회 -->
+	<select id="selectTotalBookCount" resultType="int">
+		SELECT COUNT(*)
+		FROM books WHERE status = 'ACTIVE';
+	</select>
+
+
+
+	<!-- 특정 책 조회 (활성화된 데이터만 조회) -->
 	<select id="select" parameterType="String" resultType="Book">
-	SELECT * FROM books
-	WHERE isbn = #{isbn};
+		SELECT *
+		FROM books
+		WHERE isbn = #{isbn} AND status = 'ACTIVE';
 	</select>
-	
+
+	<!-- 검색 조건에 따른 책 조회 (페이징 적용) -->
+	<select id="search" parameterType="SearchCondition"
+		resultType="Book">
+		SELECT
+		b.isbn,
+		b.title,
+		b.author,
+		b.publisher,
+		b.image,
+		b.pubdate,
+		b.status,
+		COALESCE(COUNT(bl.book_like_id), 0) AS like_count
+		FROM
+		books b
+		LEFT JOIN
+		book_like bl ON b.isbn = bl.isbn AND bl.status = 'ACTIVE'
+		<where>
+			b.status = 'ACTIVE' <!-- 비활성화된 데이터 제외 -->
+			<if test="key != null and word != null">
+				AND ${key} LIKE CONCAT('%', #{word}, '%')
+			</if>
+		</where>
+		GROUP BY
+		b.isbn
+		ORDER BY
+		${orderBy} ${orderDir}
+		LIMIT #{size} OFFSET #{offset};
+	</select>
+
+	<!-- 검색 결과 총 개수 조회 -->
+	<select id="getSearchResultCount"
+		parameterType="SearchCondition" resultType="int">
+		SELECT COUNT(*) FROM books
+		<where>
+			status = 'ACTIVE'
+			<if test="key != null and word != null">
+				AND ${key} LIKE CONCAT('%', #{word}, '%')
+			</if>
+		</where>
+	</select>
+
+
+	<!-- 책 추가 -->
 	<insert id="insert" parameterType="Book">
-	INSERT INTO books (isbn, title, author, publisher, book_img, publication_date) VALUES
-	(#{isbn},#{title},#{author},#{publisher},#{bookImg},#{publicationDate});
+		INSERT INTO books (isbn,
+		title, author, publisher, book_img,
+		publication_date, status)
+		VALUES
+		(#{isbn}, #{title}, #{author}, #{publisher}, #{image},
+		#{pubdate},
+		'ACTIVE');
 	</insert>
-	
-	<delete id="delete" parameterType="String">
-	DELETE FROM books
-	WHERE isbn = #{isbn};
-	</delete>
-	
-	<update id="update" parameterType="Book">
-	UPDATE books 
-	SET title = #{title}, author = #{author}, publisher = #{publisher}, book_img = #{bookImg}, publication_date = #{publicationDate}
-	WHERE isbn = #{isbn};
+
+	<!-- 책 비활성화 (삭제 대신 비활성화로 대체) -->
+	<update id="delete" parameterType="String">
+		UPDATE books
+		SET status =
+		'INACTIVE'
+		WHERE isbn = #{isbn};
 	</update>
-	
+
+	<!-- 책 정보 수정 -->
+	<update id="update" parameterType="Book">
+		UPDATE books
+		SET title =
+		#{title}, author = #{author}, publisher = #{publisher},
+		image =
+		#{image}, pubdate = #{pubdate}
+		WHERE isbn = #{isbn}
+		AND status =
+		'ACTIVE';
+	</update>
+
 </mapper>

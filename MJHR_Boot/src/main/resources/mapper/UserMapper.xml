@@ -22,10 +22,10 @@
 	<!-- 사용자 추가 -->
 	<insert id="insertUser" parameterType="User">
 		INSERT INTO users
-		(user_id, user_pw, user_name, user_email, user_nic, user_img, status)
+		(user_id, user_pw, user_name, user_email, user_nic, status)
 		VALUES
-		(#{userId}, #{userPw}, #{userName}, #{userEmail}, #{userNic}, #{userImg},
-		'ACTIVE'); <!-- 기본값 ACTIVE -->
+		(#{userId}, #{userPw}, #{userName}, #{userEmail}, #{userNic}, 'ACTIVE'); 
+		<!-- 기본값 ACTIVE -->
 	</insert>
 
 	<!-- 닉네임으로 사용자 검색 (활성 상태만) -->

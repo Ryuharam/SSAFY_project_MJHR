@@ -10,8 +10,8 @@ import com.mjhr.project.user.dto.User;
 public interface UserService {
 	//사용자 전체 목록 불러오기
 	public List<User> getUserList();
-	//사용자 등록하기
-	public boolean signup(User user);
+	//사용자 회원가입하기
+	public boolean registerUser(User user);
 	//로그인 하기
 	public User login(String id, String password);
 	//로그아웃 하기
