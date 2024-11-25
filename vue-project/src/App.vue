@@ -1,33 +1,34 @@
 <template>
-  <nav>
-    <RouterLink :to="{ name: 'Home' }">
-      <span>Home</span>
-    </RouterLink>
-    |
-    <RouterLink :to="{ name: 'Login' }">
-      <span>Login</span>
-    </RouterLink>
-    |
-    <RouterLink :to="{ name: 'Settings' }">
-      <span>Settings</span>
-    </RouterLink>
-    |
-    <RouterLink :to="{ name: 'MyPage' }">
-      <span>MyPage</span>
-    </RouterLink>
-    |
-    <RouterLink :to="{ name: 'BookList' }">
-      <span>BookList</span>
-    </RouterLink>
-  </nav>
-  <h1>1. App.vue</h1>
-  <hr>
-  <div v-if="store.loginUser">
-    <span>안녕하세요, {{ store.loginUser }} 님!</span>
+  <div class="app-page">
+    <header class="head">
+      <nav class="nav-bar">
+        <RouterLink :to="{ name: 'Home' }">
+          <span>Home</span>
+        </RouterLink>
+        |
+        <RouterLink :to="{ name: 'MyPage' }">
+          <span>MyPage</span>
+        </RouterLink>
+        |
+        <RouterLink :to="{ name: 'Settings' }">
+          <span>Settings</span>
+        </RouterLink>
+        |
+        <RouterLink v-if="!store.loginUser" :to="{ name: 'Login' }" class="auth-link">
+          <span>Login</span>
+        </RouterLink>
+        <a v-else @click="logout" class="auth-link">Logout</a>
+      </nav>
+    </header>
+    <div class="banner">
+      <div class="welcome-user">
+        <div v-if="store.loginUser" class="user-name">
+          <p>안녕하세요, {{ store.loginUser }} 님!</p>
+        </div>
+      </div>
+    </div>
+    <RouterView />
   </div>
-  <RouterLink v-if="!store.loginUser" :to="{ name: 'Login' }" class="auth-link">Go to Login</RouterLink>
-  <a v-else @click="logout" class="auth-link">Logout</a>
-  <RouterView />
 </template>
 
 <script setup>
@@ -55,6 +56,45 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.app-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.head {
+  width: 95%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: end;
+  padding: 1%;
+}
+
+.banner {
+  width: 100%; /* 배너가 페이지 전체 너비를 차지하도록 */
+  height: 300px; /* 원하는 높이 설정 */
+  background-image: url('@/assets/banner-img.png'); /* 이미지 경로 설정 */
+  background-position: center; /* 이미지를 중앙에 배치 */
+  background-repeat: no-repeat; /* 반복 방지 */
+  display: flex;
+}
+
+.welcome-user {
+  padding-top: 1%;
+  padding-bottom: 1%;
+  width: 30%;
+  background-color: rgba(209, 187, 158, 0.9);;
+  color: #f8f8f7;
+  display: flex;
+  position: absolute;
+  border-radius: 1cap;
+}
+
+.user-name {
+margin: auto;
+}
+
 .auth-link {
   color: #74512d;
   text-decoration: none;
@@ -66,7 +106,7 @@ onMounted(() => {
 }
 
 nav a {
-  color:  #74512d;
+  color: #74512d;
   text-decoration: none;
 }
 

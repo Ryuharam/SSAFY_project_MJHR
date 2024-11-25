@@ -1,24 +1,37 @@
 <template>
   <div class="mypage-container">
-    <h3>3.MyPage</h3>
-    <div class="profile-section">
-      <img :src="profileImage" alt="프로필 이미지" class="profile-image">
+    <div class="user-name">
+      <h3>{{ userId }}님의 서재</h3>
     </div>
-    <div class="info-section">
-      <h4>한 줄 소개</h4>
-      <p>{{ shortIntro }}</p>
-      <h4>소개</h4>
-      <p>{{ fullIntro }}</p>
+    <div class="user-page">
+      <div class="user-info">
+        <div class="profile-section">
+          <img :src="profileImage" alt="프로필 이미지" class="profile-image">
+        </div>
+        <div class="info-section">
+          <h4>한 줄 소개</h4>
+          <p>{{ shortIntro }}</p>
+          <h4>소개</h4>
+          <p>{{ fullIntro }}</p>
+        </div>
+      </div>
+      <div class="book-list">
+
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue';
+import { useUserStore } from '@/stores/userStore';
 
 const profileImage = ref('');
 const shortIntro = ref('');
 const fullIntro = ref('');
+const store = useUserStore()
+
+const userId = store.loginUser;
 
 onMounted(() => {
   const savedInfo = JSON.parse(localStorage.getItem('userInfo'));
@@ -31,9 +44,29 @@ onMounted(() => {
 </script>
 
 <style scoped>
-
 .mypage-container {
-  padding: 20px;
+  padding: 4em;
+  border: #333 solid;
+  display: flex;
+  flex-direction: column;
+}
+
+.user-page {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.user-info {
+  margin: 0;
+  padding: 1em;
+  border: #333 solid;
+  width: 10em;
+}
+
+.book-list {
+  border: #333 solid;
+  width: 30em;
 }
 
 .profile-section {
@@ -51,7 +84,8 @@ onMounted(() => {
   margin-bottom: 20px;
 }
 
-h1, h2 {
+h1,
+h2 {
   color: #333;
 }
 

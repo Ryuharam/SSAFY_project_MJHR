@@ -1,6 +1,4 @@
 <template>
-  <h3>3. Home.vue</h3>
-  <hr>
   <div>
     <h1>도서 목록</h1>
     <div class="book-list">
@@ -27,7 +25,12 @@ onMounted(() => {
 </script>
 
 <style scoped>
+h1 {
+  text-align: center;
+}
+
 .book-list {
-  border: 1px black solid;
+  display: flex;
+  justify-content: center;
 }
 </style>

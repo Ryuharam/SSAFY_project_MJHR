@@ -1,6 +1,4 @@
 <template>
-  <h3>3. SearchResult</h3>
-  <hr>
   <h1>검색 결과</h1>
   <div class="book-list">
     <BookList :results="results" />
@@ -24,6 +22,7 @@ onMounted(() => {
 
 <style scoped>
 .book-list {
-  border: 1px black solid;
+  display: flex;
+  justify-content: center;
 }
 </style>
