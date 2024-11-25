@@ -22,4 +22,6 @@ public interface ReviewDao {
 
 	int updateReview(Review review);
 
+	int getSearchResultCount(SearchCondition condition);
+
 }
