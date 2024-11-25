@@ -102,29 +102,32 @@ onMounted(() => {
 }
 
 .inputForm {
-  border: 1.5px solid #ead8c0;
-  border-radius: 10px;
-  height: 50px;
-  display: flex;
-  align-items: center;
-  transition: 0.2s ease-in-out;
-}
+    border: 1.5px solid #ecedec;
+    border-radius: 10px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    transition: 0.2s ease-in-out;
+    background-color: #ffffff;
+  }
 
-.input {
-  margin-left: 10px;
-  border-radius: 10px;
-  border: none;
-  width: 100%;
-  height: 100%;
-}
+  .input {
+    margin-left: 10px;
+    border: none;
+    width: 85%;
+    height: 100%;
+    background-color: transparent;
+  }
 
-.input:focus {
-  outline: none;
-}
+  .input:focus {
+    outline: none;
+  }
 
-.inputForm:focus-within {
-  border: 1.5px solid #ead8c0;
-}
+  .inputForm:focus-within {
+    border: 1.5px solid #2d79f3;
+  }
+
 
 .flex-row {
   display: flex;
