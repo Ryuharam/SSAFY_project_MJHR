@@ -1,25 +1,13 @@
 <template>
-  <table>
-    <thead>
-      <tr>
-        <th>제목</th>
-        <th>작성자</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr class="review-list" v-for="(review, index) in results" :key="index">
-        <td>
-          {{ review.reviewTitle }}
-        </td>
-        <td>{{ review.userId }}</td>
-      </tr>
-    </tbody>
-  </table>
+  <div v-for="(review, index) in results" :key="index">
+    <ReviewDetail :review="review" />
+  </div>
 </template>
 
 <script setup>
 import { defineProps, onMounted, computed } from 'vue';
 import { useReviewStore } from "@/stores/reviewStore";
+import ReviewDetail from './ReviewDetail.vue';
 
 const store = useReviewStore();
 
@@ -30,13 +18,13 @@ const props = defineProps({
   },
 });
 
-const results = computed(() => store.bookReviews)
+
+// 리뷰 결과 가져오기
+const results = computed(() => store.bookReviews);
 
 onMounted(() => {
-  store.getBookReviews(props.isbn)
-})
-
-
+  store.getBookReviews(props.isbn); // ISBN 기반으로 리뷰 가져오기
+});
 </script>
 
 <style scoped></style>

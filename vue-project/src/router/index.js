@@ -72,10 +72,9 @@ const router = createRouter({
           component: ReviewList
         },
         {
-          path: "detail/:reviewId",
+          path: "detail",
           name: "ReviewDetail",
           component: ReviewDetail,
-          props: true,
         }
       ],
     },
