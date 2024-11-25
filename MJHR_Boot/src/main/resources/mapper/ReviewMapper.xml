@@ -16,9 +16,10 @@
         WHERE review_id = #{reviewId} AND status = 'ACTIVE'; <!-- 비활성화 상태 제외 -->
     </select>
 
-    <!-- 검색 조건에 따른 리뷰 조회 (활성 상태만) -->
+    <!-- 검색 조건에 따른 리뷰 조회 -->
     <select id="search" parameterType="SearchCondition" resultType="Review">
-        SELECT * FROM reviews
+        SELECT * 
+        FROM reviews
         <where>
             status = 'ACTIVE' <!-- 비활성화 상태 제외 -->
             <if test="key != null and word != null">
@@ -28,6 +29,7 @@
         <if test="orderBy != null and orderDir != null">
             ORDER BY ${orderBy} ${orderDir}
         </if>
+        LIMIT #{offset}, #{size} <!-- 페이징 처리 -->
     </select>
 
     <!-- 리뷰 추가 -->

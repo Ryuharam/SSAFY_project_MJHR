@@ -2,7 +2,7 @@
   <h3>3. Home.vue</h3>
   <hr>
   <div>
-    <h1>추천 도서</h1>
+    <h1>도서 목록</h1>
     <div class="book-list">
       <BookList :results="results" />
     </div>

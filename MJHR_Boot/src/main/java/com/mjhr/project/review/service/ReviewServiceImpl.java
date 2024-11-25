@@ -48,4 +48,9 @@ public class ReviewServiceImpl implements ReviewService{
 		return dao.updateReview(review)==1;
 	}
 
+	@Override
+	public int getSearchResultCount(SearchCondition condition) {
+		return 0;
+	}
+
 }

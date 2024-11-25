@@ -19,5 +19,7 @@ public interface ReviewService {
 
 	boolean modifyReview(Review review);
 
+	int getSearchResultCount(SearchCondition condition);
+
 
 }

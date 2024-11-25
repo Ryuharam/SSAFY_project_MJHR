@@ -66,36 +66,44 @@ public class BookController {
 	public ResponseEntity<PageResponse<Book>> searchBook(@ModelAttribute SearchCondition getCondition,
 	                                                     @RequestParam(value = "page", defaultValue = "1") int page,
 	                                                     @RequestParam(value = "size", defaultValue = "100") int size) {
-
-	    if (page < 1 || size < 1) {
+		SearchCondition condition = new SearchCondition();
+		
+		if (page < 1 || size < 1) {
+			System.out.println("1");
 	        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	    }
 
 	    // 검증 및 기본값 설정
 	    String key = getCondition.getKey();
 	    if (!"title".equals(key) && !"author".equals(key) && !"publisher".equals(key)) {
-	        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	        System.out.println("2");
+	    	return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	    }
 
 	    String orderBy = getCondition.getOrderBy();
 	    if (orderBy == null || (!"title".equals(orderBy) && !"author".equals(orderBy))) {
-	        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	    	orderBy = "title";
 	    }
 
 	    String orderDir = getCondition.getOrderDir();
 	    if (orderDir == null || (!"ASC".equalsIgnoreCase(orderDir) && !"DESC".equalsIgnoreCase(orderDir))) {
+	    	System.out.println("4");
 	        orderDir = "ASC"; // 기본값
 	    }
 
 	    // 검색 조건 설정
-	    getCondition.setOrderBy(orderBy);
-	    getCondition.setOrderDir(orderDir);
-	    getCondition.setOffset((page - 1) * size); // 시작 위치 계산
-	    getCondition.setSize(size); // 페이지 크기 설정
+	    condition.setKey(getCondition.getKey());
+	    condition.setWord(getCondition.getWord());
+	    condition.setOrderBy(orderBy);
+	    condition.setOrderDir(orderDir);
+	    condition.setOffset((page - 1) * size); // 시작 위치 계산
+	    condition.setSize(size); // 페이지 크기 설정
+	    
+	    System.out.println(condition);
 
 	    // 서비스 호출
-	    List<Book> result = service.searchBook(getCondition);
-	    int totalItems = service.getSearchResultCount(getCondition); // 검색 결과 총 개수
+	    List<Book> result = service.searchBook(condition);
+	    int totalItems = service.getSearchResultCount(condition); // 검색 결과 총 개수
 	    int totalPages = (int) Math.ceil((double) totalItems / size);
 
 	    PageResponse<Book> response = new PageResponse<>(result, page, size, totalPages, totalItems);

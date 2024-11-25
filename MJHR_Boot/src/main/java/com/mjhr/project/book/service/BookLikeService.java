@@ -19,5 +19,7 @@ public interface BookLikeService {
 
 	int getBookLikeCount(String isbn);
 
+	boolean isBookLikedByUser(String userId, String isbn);
+
 	
 }

@@ -22,6 +22,9 @@
   </nav>
   <h1>1. App.vue</h1>
   <hr>
+  <div v-if="store.loginUser">
+    <span>안녕하세요, {{ store.loginUser }} 님!</span>
+  </div>
   <button v-if="!store.loginUser" @click="login">Go to Login</button>
   <button v-else @click="logout">Logout</button>
   <RouterView />

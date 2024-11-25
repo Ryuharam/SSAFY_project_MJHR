@@ -13,29 +13,29 @@
 
 <script setup>
 import { ref } from "vue";
-import { useRouter } from "vue-router";
+import { useRouter } from 'vue-router';
+import { useSearchStore } from '@/stores/searchStore';
 
-const word = ref("");
+const store = useSearchStore();
 const router = useRouter();
+const word = ref("");
 
-const doSearch = function () {
-  console.log("호출")
+// 검색 실행
+const doSearch = async () => {
   if (word.value.trim() === "") {
     alert("공백은 입력될 수 없습니다");
     return;
   }
+  console.log(word.value)
+  store.word = word.value;
+  console.log(store.word);
+  store.getSearchResult();
 
-  // SearchResult 페이지로 이동하며 검색어 전달
-  router.push({
-    name: "SearchResult",
-    params: {
-      category: "book",
-    },
-    query: {
-      word: word.value,
-    },
-  });
+  // SearchResult 이동
+  router.push({ name: "SearchResult" });
 };
+
+
 
 </script>
 

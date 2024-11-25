@@ -1,55 +1,61 @@
-import { ref } from 'vue';
-import { defineStore } from 'pinia';
-import axios from 'axios';
+import { ref } from "vue";
+import { defineStore } from "pinia";
+import axios from "axios";
 
-const BASE_API_URL = `http://localhost:8080/`;
+const BASE_API_URL = `http://localhost:8080/book/`;
 
-export const useSearchStore = defineStore('result', () => {
-  const searchCondition = ref({
-    category: "",
-    key: "",
-    word: "",
-    orderBy: "",
-    orderDir: "",
-    limitNum: "18",
-  });
+export const useSearchStore = defineStore("result", () => {
 
-  const results = ref([]);
-  const loading = ref(false);
-  const error = ref(null);
+  const results = ref([]);  // 검색 결과
 
-  const getSearchResults = async function () {
+  const word = ref("");     // 검색어
+  const key = ref("title");
+  const orderBy = ref("title");
+  const orderDir = ref("ASC");
+  const currentPage = ref(1); // 현재 페이지
+  const totalPages = ref(0); // 총 페이지 수
+  const totalItems = ref(0); // 총 항목 수
+  const pageSize = ref(100); // 페이지 크기 (기본값 100)
 
-    loading.value = true;
-    error.value = null;
-
+  const getSearchResult = async (page = 1, size = 100) => {
     try {
-      // 동적으로 URL 생성
-      const searchUrl = `${BASE_API_URL}${searchCondition.value.category}/search`;
-
-      console.log(searchUrl)
-
-      const response = await axios.get(searchUrl, {
+      console.log('📡 요청 보내는 중:', { page, size });
+      console.log(`${BASE_API_URL}search`)
+      const response = await axios.get(`${BASE_API_URL}search`, {
         params: {
-          key: searchCondition.value.key,
-          word: searchCondition.value.word,
-          orderBy: searchCondition.value.orderBy,
-          orderDir: searchCondition.value.orderDir,
-          limitNum: searchCondition.value.limitNum,
+          key: key.value,
+          word: word.value,
+          orderBy: orderBy.value,
+          orderDir: orderDir.value,
+          page,
+          size,
         },
       });
-      results.value = response.data;
-      console.log("검색 결과:", response.data);
+      console.log('✅ 응답 데이터:', response);
+      const { data, totalPages: total, totalItems: totalCount } = response.data;
+
+      results.value = data;
+      currentPage.value = page;
+      totalPages.value = total;
+      totalItems.value = totalCount;
+      pageSize.value = size;
+
+      console.log('📚 상태 업데이트 완료:', { results: results.value });
     } catch (error) {
-      console.error("검색 요청 실패:", error);
-    } finally {
-      loading.value = false;
+      console.error('❌ 도서 목록을 가져오는 데 실패했습니다:', error);
     }
-  };
+  }
 
   return {
-    searchCondition,
-    getSearchResults,
+    key,
+    word,
+    orderBy,
+    orderDir,
+    currentPage,
+    totalPages,
+    totalItems,
+    pageSize,
     results,
+    getSearchResult,
   };
 });

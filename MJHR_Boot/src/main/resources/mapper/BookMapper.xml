@@ -63,24 +63,24 @@
 		b.publisher,
 		b.image,
 		b.pubdate,
-		b.status,
-		COALESCE(COUNT(bl.book_like_id), 0) AS like_count
+		b.status
 		FROM
 		books b
-		LEFT JOIN
-		book_like bl ON b.isbn = bl.isbn AND bl.status = 'ACTIVE'
-		<where>
-			b.status = 'ACTIVE' <!-- 비활성화된 데이터 제외 -->
-			<if test="key != null and word != null">
-				AND ${key} LIKE CONCAT('%', #{word}, '%')
-			</if>
-		</where>
-		GROUP BY
-		b.isbn
+		WHERE
+		b.status = 'ACTIVE'
+		<if test="word != null and word != ''">
+			AND title LIKE CONCAT('%', #{word}, '%')
+		</if>
 		ORDER BY
-		${orderBy} ${orderDir}
+		CASE
+		WHEN title LIKE CONCAT('', #{word}, '') THEN 1
+		WHEN title LIKE CONCAT('%', #{word}, '%') THEN 2
+		ELSE 3
+		END
 		LIMIT #{size} OFFSET #{offset};
 	</select>
+
+
 
 	<!-- 검색 결과 총 개수 조회 -->
 	<select id="getSearchResultCount"

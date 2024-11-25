@@ -4,51 +4,77 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mjhr.project.book.dao.BookLikeDao">
 
-    <!-- 좋아요 추가 -->
-    <insert id="insertLike" parameterType="String">
-        INSERT INTO book_like
-        (user_id, isbn, status)
-        VALUES
-        (#{userId}, #{isbn}, 'ACTIVE'); <!-- 기본값: ACTIVE -->
-    </insert>
+	<!-- 좋아요 추가 -->
+	<insert id="insertLike" parameterType="map">
+		INSERT INTO book_like (user_id, isbn, status)
+		VALUES (#{userId}, #{isbn}, 'ACTIVE')
+		ON DUPLICATE KEY UPDATE
+		status = 'ACTIVE';
+	</insert>
 
-    <!-- 좋아요 삭제 (논리 삭제) -->
-    <update id="deleteLike" parameterType="String">
-        UPDATE book_like
-        SET status = 'INACTIVE'
-        WHERE user_id = #{userId} AND isbn = #{isbn}; <!-- 상태를 INACTIVE로 변경 -->
-    </update>
 
-    <!-- 특정 사용자의 활성화된 좋아요 조회 -->
-    <select id="selectUserLikes" parameterType="String" resultType="BookLike">
-        SELECT bl.user_id, bl.isbn, b.title
-        FROM book_like bl
-        JOIN books b 
-        ON bl.isbn = b.isbn
-        WHERE bl.user_id = #{userId} AND bl.status = 'ACTIVE'; <!-- 활성 상태 조건 추가 -->
-    </select>
 
-    <!-- 특정 책의 활성화된 좋아요 조회 -->
-    <select id="selectBookLikes" parameterType="String" resultType="BookLike">
-        SELECT bl.user_id, bl.isbn, u.user_nic
-        FROM book_like bl
-        JOIN users u 
-        ON bl.user_id = u.user_id
-        WHERE bl.isbn = #{isbn} AND bl.status = 'ACTIVE'; <!-- 활성 상태 조건 추가 -->
-    </select>
+	<!-- 좋아요 삭제 (논리 삭제) -->
+	<update id="deleteLike" parameterType="String">
+		UPDATE book_like
+		SET status = 'INACTIVE'
+		WHERE user_id = #{userId} AND
+		isbn = #{isbn}; <!-- 상태를 INACTIVE로 변경 -->
+	</update>
 
-    <!-- 특정 사용자의 좋아요 개수 (활성 상태만) -->
-    <select id="selectBookCount" parameterType="String" resultType="int">
-        SELECT COUNT(*)
-        FROM book_like
-        WHERE user_id = #{userId} AND status = 'ACTIVE'; <!-- 활성 상태 조건 추가 -->
-    </select>
+	<select id="existsByUserIdAndIsbn" parameterType="map"
+		resultType="boolean">
+		SELECT EXISTS (
+		SELECT 1
+		FROM book_like
+		WHERE user_id =
+		#{userId}
+		AND isbn = #{isbn}
+		AND status = 'ACTIVE'
+		)
+	</select>
 
-    <!-- 특정 책의 좋아요 개수 (활성 상태만) -->
-    <select id="selectUserCount" parameterType="String" resultType="int">
-        SELECT COUNT(*)
-        FROM book_like
-        WHERE isbn = #{isbn} AND status = 'ACTIVE'; <!-- 활성 상태 조건 추가 -->
-    </select>
+
+	<!-- 특정 사용자의 활성화된 좋아요 조회 -->
+	<select id="selectUserLikes" parameterType="String"
+		resultType="BookLike">
+		SELECT bl.user_id, bl.isbn, b.title
+		FROM book_like bl
+		JOIN books b
+		ON
+		bl.isbn = b.isbn
+		WHERE bl.user_id = #{userId} AND bl.status = 'ACTIVE'; <!-- 
+			활성 상태 조건 추가 -->
+	</select>
+
+	<!-- 특정 책의 활성화된 좋아요 조회 -->
+	<select id="selectBookLikes" parameterType="String"
+		resultType="BookLike">
+		SELECT bl.user_id, bl.isbn, u.user_nic
+		FROM book_like bl
+		JOIN users u
+		ON
+		bl.user_id = u.user_id
+		WHERE bl.isbn = #{isbn} AND bl.status =
+		'ACTIVE'; <!-- 활성 상태 조건 추가 -->
+	</select>
+
+	<!-- 특정 사용자의 좋아요 개수 (활성 상태만) -->
+	<select id="selectBookCount" parameterType="String"
+		resultType="int">
+		SELECT COUNT(*)
+		FROM book_like
+		WHERE user_id = #{userId} AND status =
+		'ACTIVE'; <!-- 활성 상태 조건 추가 -->
+	</select>
+
+	<!-- 특정 책의 좋아요 개수 (활성 상태만) -->
+	<select id="selectUserCount" parameterType="String"
+		resultType="int">
+		SELECT COUNT(*)
+		FROM book_like
+		WHERE isbn = #{isbn} AND status =
+		'ACTIVE'; <!-- 활성 상태 조건 추가 -->
+	</select>
 
 </mapper>
