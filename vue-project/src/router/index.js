@@ -56,27 +56,27 @@ const router = createRouter({
           path: "detail/:isbn",
           name: "BookDetail",
           component: BookDetail,
-          props: true, 
+          props: true,
         },
       ],
     },
     // 리뷰 레이아웃
     {
-      path:"/review",
-      name:"ReviewLayout",
-      component:ReviewLayout,
-      children:[
+      path: "/review",
+      name: "ReviewLayout",
+      component: ReviewLayout,
+      children: [
         {
-          path:"list",
-          name:"ReviewList",
-          component:ReviewList
+          path: "list",
+          name: "ReviewList",
+          component: ReviewList
         },
         {
-          path:"detail/:reviewId",
-          name:"ReviewDetail",
-          component:ReviewDetail,
-          props:true,
-        },
+          path: "detail/:reviewId",
+          name: "ReviewDetail",
+          component: ReviewDetail,
+          props: true,
+        }
       ],
     },
     // 인증 레이아웃

@@ -1,5 +1,4 @@
 <template>
-  <h5>BookList</h5>
   <div class="book-list">
     <div class="book" v-for="(book, index) in results" :key="index">
       <BookCard :book="book" />

@@ -1,6 +1,4 @@
 <template>
-  <h5>BookDetail</h5>
-  <hr />
   <div class="container">
     <div class="book-info">
       <!-- 이미지 박스 -->
@@ -37,9 +35,22 @@
       </div>
     </div>
     <hr>
-    <!-- 리뷰 목록 박스 -->
-    <div class="review-list">
-      <h5>reviews</h5>
+    <!-- 리뷰 -->
+    <div class="review">
+      <h4>reviews</h4>
+      <hr>
+
+      <button @click="showModal = true">리뷰 작성하기</button>
+      <!-- ReviewCreate 모달 -->
+      <div v-if="showModal" class="modal-overlay" @click.self="closeModal">
+        <div class="modal-content">
+          <ReviewCreate :isbn="isbn" @close="closeModal" />
+          <button class="close-button" @click="closeModal">X</button>
+        </div>
+      </div>
+      <!-- ReviewList -->
+      <ReviewList :isbn="isbn" />
+
     </div>
   </div>
 </template>
@@ -50,6 +61,9 @@
 import { ref, computed, onMounted, watch } from 'vue';
 import { useBookStore } from '@/stores/bookStore';
 import { useBookLikeStore } from '@/stores/bookLikeStore';
+import ReviewCreate from '../Review/ReviewCreate.vue';
+import ReviewList from '../Review/ReviewList.vue';
+
 
 // Props 정의
 const props = defineProps({
@@ -58,6 +72,12 @@ const props = defineProps({
     required: true,
   },
 });
+
+const showModal = ref(false);
+
+const closeModal = () => {
+  showModal.value = false;
+};
 
 // Pinia 스토어 사용
 const store = useBookStore();
@@ -117,6 +137,42 @@ watch(() => props.isbn, async () => {
 </script>
 
 <style scoped>
+/* 모달 오버레이 */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* 모달 콘텐츠 */
+.modal-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  position: relative;
+  width: 400px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* 닫기 버튼 */
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+
 .book-info {
   display: flex;
   flex-direction: row;

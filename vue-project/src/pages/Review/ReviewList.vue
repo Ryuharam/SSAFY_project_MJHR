@@ -1,29 +1,42 @@
 <template>
-  <h5>ReviewList</h5>
-  <div class="review-list">
-    <div class="review" v-for="(review, index) in results" :key="index">
-      <ul>
-        <li>
-          <RouterLink :to="`/Review/${review.reviewId}`">
-            {{ review.reviewTitle }}
-          </RouterLink>
-        </li>
-      </ul>
-    </div>
-  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>제목</th>
+        <th>작성자</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="review-list" v-for="(review, index) in results" :key="index">
+        <td>
+          {{ review.reviewTitle }}
+        </td>
+        <td>{{ review.userId }}</td>
+      </tr>
+    </tbody>
+  </table>
 </template>
 
 <script setup>
-import { defineProps } from 'vue';
+import { defineProps, onMounted, computed } from 'vue';
+import { useReviewStore } from "@/stores/reviewStore";
 
-defineProps({
-  results: {
-    type: Array,
+const store = useReviewStore();
+
+const props = defineProps({
+  isbn: {
+    type: String,
     required: true,
   },
 });
+
+const results = computed(() => store.bookReviews)
+
+onMounted(() => {
+  store.getBookReviews(props.isbn)
+})
+
+
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -31,6 +31,18 @@
         </if>
         LIMIT #{offset}, #{size} <!-- 페이징 처리 -->
     </select>
+    
+    <!-- 검색 결과 총 개수 조회 -->
+	<select id="getSearchResultCount"
+		parameterType="SearchCondition" resultType="int">
+		SELECT COUNT(*) FROM reviews
+		<where>
+			status = 'ACTIVE'
+			<if test="key != null and word != null">
+				AND ${key} LIKE CONCAT('%', #{word}, '%')
+			</if>
+		</where>
+	</select>
 
     <!-- 리뷰 추가 -->
     <insert id="insertReview" parameterType="Review">
