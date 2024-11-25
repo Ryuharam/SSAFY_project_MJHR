@@ -4,30 +4,51 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mjhr.project.user.dao.UserDao">
 
+	<!-- 특정 사용자 조회 (활성 상태만) -->
 	<select id="selectOne" parameterType="Map" resultType="User">
-		SELECT user_id, user_name 
+		SELECT user_id, user_name
 		FROM users
-		WHERE id = #{userId} AND password = #{userPw}
+		WHERE user_id = #{userId} AND user_pw = #{userPw} AND status = 'ACTIVE'; <!-- 
+			활성 상태 조건 추가 -->
 	</select>
-	
+
+	<!-- 모든 사용자 조회 (활성 상태만) -->
 	<select id="selectAllUsers" resultType="User">
 		SELECT *
-		FROM users 
+		FROM users
+		WHERE status = 'ACTIVE'; <!-- 활성 상태 조건 추가 -->
 	</select>
-	
+
+	<!-- 사용자 추가 -->
 	<insert id="insertUser" parameterType="User">
 		INSERT INTO users
-		VALUES (#{userId}, #{userPw}, #{userName}, #{userEmail}, #{userNic}, #{userImg});
+		(user_id, user_pw, user_name, user_email, user_nic, user_img, status)
+		VALUES
+		(#{userId}, #{userPw}, #{userName}, #{userEmail}, #{userNic}, #{userImg},
+		'ACTIVE'); <!-- 기본값 ACTIVE -->
 	</insert>
-	
-	<select id="selectUserByNic" parameterType="String" resultType="User">
-	SELECT * FROM users
-	WHERE user_nic LIKE concat('%',#{userNic},'%')
+
+	<!-- 닉네임으로 사용자 검색 (활성 상태만) -->
+	<select id="selectUserByNic" parameterType="String"
+		resultType="User">
+		SELECT *
+		FROM users
+		WHERE user_nic LIKE CONCAT('%', #{userNic}, '%') AND status = 'ACTIVE'; <!-- 
+			활성 상태 조건 추가 -->
 	</select>
-	
-	
-<!-- 	<delete id="deleteUser" parameterType="int">
-	DELETE FROM users
-	WHERE id = #{userId}
-	</delete> -->
+
+	<!-- 사용자 이미지 파일 업로드 -->
+	<update id="uploadUserFile" parameterType="UserFile">
+		UPDATE users
+		SET user_img = #{filePath}
+		WHERE user_id = #{userId} AND status = 'ACTIVE'; <!-- 활성 상태 조건 추가 -->
+	</update>
+
+	<!-- 사용자 비활성화 (논리 삭제) -->
+	<update id="deleteUser" parameterType="String">
+		UPDATE users
+		SET status = 'INACTIVE'
+		WHERE user_id = #{userId}; <!-- 상태를 INACTIVE로 변경 -->
+	</update>
+
 </mapper>

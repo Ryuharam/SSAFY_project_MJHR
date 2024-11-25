@@ -1,7 +1,7 @@
 package com.mjhr.project.user.controller;
 
-import java.io.File;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,12 +48,26 @@ public class UserController {
 	}
 
 	@Operation(summary = "사용자 회원 가입", description = "사용자 회원 가입")
+//	@PostMapping("/signup")
+//	public ResponseEntity<String> write(@RequestBody User user) {
+//		if(user.getEmail() == null || user.getEmail().isEmpty()) {
+//			throw new IllegalArgumentException("이메일은 필수 입력 항목");
+//		}
+//		System.out.println(user);
+//		if (userService.registerUser(user)) {
+//			return ResponseEntity.status(HttpStatus.CREATED).body("User added successfully");
+//		}
+//		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to add user");
+//	}
 	@PostMapping("/signup")
-	public ResponseEntity<String> write(@RequestBody User user) {
-		if (userService.signup(user)) {
-			return ResponseEntity.status(HttpStatus.CREATED).body("User added successfully");
+	public ResponseEntity<?> registerUser(@RequestBody User user) {
+		try {
+			userService.registerUser(user);
+			String token = jwtUtil.createToken(user.getUserId());
+			return ResponseEntity.ok().body(Collections.singletonMap("token", token));
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
 		}
-		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to add user");
 	}
 
 	@Operation(summary = "사용자 로그인", description = "사용자 로그인")
