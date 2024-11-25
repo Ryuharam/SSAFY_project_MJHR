@@ -22,8 +22,11 @@
   </nav>
   <h1>1. App.vue</h1>
   <hr>
-  <button v-if="!store.loginUser" @click="login">Go to Login</button>
-  <button v-else @click="logout">Logout</button>
+  <div v-if="store.loginUser">
+    <span>안녕하세요, {{ store.loginUser }} 님!</span>
+  </div>
+  <RouterLink v-if="!store.loginUser" :to="{ name: 'Login' }" class="auth-link">Go to Login</RouterLink>
+  <a v-else @click="logout" class="auth-link">Logout</a>
   <RouterView />
 </template>
 
@@ -51,4 +54,23 @@ onMounted(() => {
 
 </script>
 
-<style scoped></style>
+<style scoped>
+.auth-link {
+  color: #74512d;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.auth-link:hover {
+  text-decoration: underline;
+}
+
+nav a {
+  color:  #74512d;
+  text-decoration: none;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+</style>

@@ -5,17 +5,17 @@
       <input type="file" ref="fileInput" @change="changeProfileImage" accept="image/*" style="display: none;">
     </div>
     
-    <div class="info-section">
+    <div class="info-section form">
       <form @submit.prevent="updateInfo">
-        <div class="form-group">
-          <label for="shortIntro">한 줄 소개:</label>
-          <input type="text" id="shortIntro" v-model="shortIntro" placeholder="한 줄 소개를 입력하세요">
+        <div class="form-group inputForm">
+          <label for="shortIntro" class="flex-column">한 줄 소개</label>
+          <input type="text" id="shortIntro" v-model="shortIntro" placeholder="한 줄 소개를 입력하세요" class="input">
         </div>
-        <div class="form-group">
-          <label for="fullIntro">소개:</label>
-          <textarea id="fullIntro" v-model="fullIntro" placeholder="소개를 입력하세요"></textarea>
+        <div class="form-group inputForm">
+          <label for="fullIntro" class="flex-column">소개</label>
+          <textarea id="fullIntro" v-model="fullIntro" placeholder="소개를 입력하세요" class="input"></textarea>
         </div>
-        <button type="submit" class="update-button">정보 업데이트</button>
+        <button type="submit" class="button-submit">정보 업데이트</button>
       </form>
     </div>
   </div>
@@ -77,6 +77,122 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-color: #ffffff;
+  padding: 30px;
+  width: 450px;
+  border-radius: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+::placeholder {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.form button {
+  align-self: flex-end;
+}
+
+.flex-column>label {
+  color: #151717;
+  font-weight: 600;
+}
+
+.inputForm {
+  border: 1.5px solid #ead8c0;
+  border-radius: 10px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  transition: 0.2s ease-in-out;
+}
+
+.input {
+  margin-left: 10px;
+  border-radius: 10px;
+  border: none;
+  width: 100%;
+  height: 100%;
+}
+
+.input:focus {
+  outline: none;
+}
+
+.inputForm:focus-within {
+  border: 1.5px solid #ead8c0;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  justify-content: space-between;
+}
+
+.flex-row>div>label {
+  font-size: 14px;
+  color: black;
+  font-weight: 400;
+}
+
+.span {
+  font-size: 14px;
+  margin-left: 5px;
+  color: #af8f6f;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.button-submit {
+  margin: 20px 0 10px 0;
+  background-color: #af8f6f;
+  border: none;
+  color: white;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 10px;
+  height: 50px;
+  width: 100%;
+  cursor: pointer;
+}
+
+.button-submit:hover {
+  background-color: #D1BB9E;
+}
+
+.p {
+  text-align: center;
+  color: black;
+  font-size: 14px;
+  margin: 5px 0;
+}
+
+.btn {
+  margin-top: 10px;
+  width: 100%;
+  height: 50px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 500;
+  gap: 10px;
+  border: 1px solid #ead8c0;
+  background-color: white;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+}
+
+.btn:hover {
+  border: 1px solid #ead8c0;
+  ;
+}
+
 .settings-container {
   padding: 20px;
 }
@@ -93,41 +209,46 @@ onMounted(() => {
   cursor: pointer;
 }
 
-.info-section {
-  margin-bottom: 20px;
+.settings-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
 }
 
-.form-group {
-  margin-bottom: 15px;
+.info-section.form {
+  max-width: 450px;
+  width: 100%;
+  margin: 0 auto;
 }
 
-label {
-  display: block;
+.textarea-container {
+  height: auto;
+}
+
+.textarea {
+  height: 150px;
+  resize: vertical;
+}
+
+.inputForm {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.input {
+  width: 100%;
+  margin-left: 0;
+  padding: 10px;
+}
+
+.flex-column > label {
   margin-bottom: 5px;
 }
 
-input[type="text"],
-textarea {
+.button-submit {
   width: 100%;
-  padding: 8px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  margin-top: 20px;
 }
 
-textarea {
-  height: 100px;
-}
-
-.update-button {
-  background-color: #4CAF50;
-  color: white;
-  padding: 10px 15px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.update-button:hover {
-  background-color: #45a049;
-}
 </style>
