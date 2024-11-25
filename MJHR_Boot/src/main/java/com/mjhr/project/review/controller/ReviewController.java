@@ -144,6 +144,7 @@ public class ReviewController {
 	@Operation(summary = "독후감 삭제", description = "독후감 삭제")
 	@DeleteMapping("/delete/{reviewId}")
 	public ResponseEntity<?> removeReview(@PathVariable("reviewId") String reviewId) {
+		System.out.println(reviewId);
 		if (service.removeReview(reviewId))
 			return new ResponseEntity<>("삭제 성공", HttpStatus.OK);
 		return new ResponseEntity<>("삭제 실패", HttpStatus.BAD_REQUEST);

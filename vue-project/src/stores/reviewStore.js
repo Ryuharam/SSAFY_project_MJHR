@@ -34,7 +34,9 @@ export const useReviewStore = defineStore("review", () => {
       })
       .catch(error => {
         console.error("리뷰를 가져오는 데 실패했습니다.", error);
-      });
+        bookReviews.value = [];
+      })
+      ;
   };
 
 
@@ -57,11 +59,12 @@ export const useReviewStore = defineStore("review", () => {
     })
       .then((response) => {
         console.log('📚 리뷰 등록 완료:', response);
-        bookReviews.value = getBookReviews(newReview.isbn).data
+        console.log("리뷰 확인용", newReview)
+        console.log("리뷰 확인용 isbn", newReview.isbn)
+        bookReviews.value = getBookReviews(newReview.isbn)
       })
       .catch((error) => {
         console.error('❌ 리뷰 등록에 실패했습니다:', error);
-        alert("리뷰등록실패")
       });
   }
 

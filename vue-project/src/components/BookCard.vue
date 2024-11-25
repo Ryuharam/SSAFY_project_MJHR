@@ -2,9 +2,7 @@
   <div>
     <div class="card">
       <!-- 이미지 섹션 -->
-      <div 
-        class="card-img" 
-        :style="{ backgroundImage: `url(${book.image})` }">
+      <div class="card-img" :style="{ backgroundImage: `url(${book.image})` }">
       </div>
 
       <!-- 상세 정보 섹션 -->
@@ -50,33 +48,41 @@ const goBookDetail = function () {
   flex-direction: column;
   justify-content: space-between;
   padding: 15px;
-  background: #f5f5f5;
-  border: 2px solid #c3c6ce;
+  background: #FFF2E1;
+  border: 2px solid #F8F4E1;
   margin: 0.5rem;
   transition: 0.5s ease-out;
   padding: 15px;
 }
+
 /* 이미지 섹션 */
 .card-img {
   width: 100%;
-  height: 60%; /* 카드 상단의 60%를 이미지로 사용 */
-  background-size: cover; /* 이미지를 잘라서 카드에 맞춤 */
-  background-position: center; /* 이미지를 중앙 정렬 */
-  border-bottom: 2px solid #ddd; /* 이미지와 상세 정보 구분선 */
+  height: 60%;
+  /* 카드 상단의 60%를 이미지로 사용 */
+  background-size: cover;
+  /* 이미지를 잘라서 카드에 맞춤 */
+  background-position: center;
+  /* 이미지를 중앙 정렬 */
+  border-bottom: 2px solid #ddd;
+  /* 이미지와 상세 정보 구분선 */
 }
 
 .card-details {
   width: 90%;
-  height: 40%; /* 카드 상단의 60%를 이미지로 사용 */
-  background-color: #FFD2D2;
+  height: 40%;
+  /* 카드 상단의 60%를 이미지로 사용 */
+  background-color: #EAD9C0;
   padding: 10px;
   border-radius: 5px;
-  color: black;
+  color: #74512D;
   gap: .1em;
   display: grid;
   place-content: center;
-  overflow: hidden; /* 넘치는 텍스트 숨김 */
-  text-overflow: ellipsis; /* 줄임표 추가 */
+  overflow: hidden;
+  /* 넘치는 텍스트 숨김 */
+  text-overflow: ellipsis;
+  /* 줄임표 추가 */
 }
 
 .card-button {
@@ -84,7 +90,7 @@ const goBookDetail = function () {
   width: 60%;
   border-radius: 1rem;
   border: none;
-  background-color: #B90000;
+  background-color: #543310;
   color: #fff;
   font-size: 1rem;
   padding: .5rem 1rem;
@@ -100,22 +106,26 @@ const goBookDetail = function () {
 .text-title {
   font-size: 1em;
   font-weight: bold;
-  color: #B95050;
+  color: #543310;
   margin: auto;
-  white-space: nowrap; /* 텍스트를 한 줄로 제한 */
-  overflow: hidden; /* 넘치는 텍스트 숨김 */
-  text-overflow: ellipsis; /* 줄임표 추가 */
-  width: 100%; /* 텍스트 줄임표를 적용할 영역 크기 설정 */
+  white-space: nowrap;
+  /* 텍스트를 한 줄로 제한 */
+  overflow: hidden;
+  /* 넘치는 텍스트 숨김 */
+  text-overflow: ellipsis;
+  /* 줄임표 추가 */
+  width: 100%;
+  /* 텍스트 줄임표를 적용할 영역 크기 설정 */
 }
 
 .text-body {
-  color: rgb(27, 4, 4);
+  color: #74512D;
   margin: auto;
 }
 
 /*Hover*/
 .card:hover {
-  border-color: #B22222;
+  border-color: #543310;
   box-shadow: 0 4px 18px 0 rgba(0, 0, 0, 0.25);
 }
 

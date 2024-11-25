@@ -117,6 +117,7 @@ const toggleLike = async () => {
 
 // 컴포넌트 마운트 시 초기화
 onMounted(async () => {
+  console.log("isbn 확인", props.isbn)
   store.isbn = props.isbn; // 스토어에 isbn 전달
   likeStore.isbn = props.isbn;
   await store.getBookDetail(); // 도서 상세 정보 요청
@@ -230,7 +231,7 @@ watch(() => props.isbn, async () => {
   width: 136px;
   border-radius: 16px;
   border: none;
-  background-color: #d89191;
+  background-color: #A79277;
   overflow: hidden;
   box-shadow:
     inset -2px -2px 5px rgba(255, 255, 255, 0.2),
@@ -270,7 +271,7 @@ watch(() => props.isbn, async () => {
   align-items: center;
   color: #717070;
   font-size: 16px;
-  border-left: 2px solid #ecb6b6;
+  border-left: 2px solid #D1BB9E;
   transition: all 0.5s ease-out;
 }
 

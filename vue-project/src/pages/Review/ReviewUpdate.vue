@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="card-update">
     <span class="title">Leave a Comment</span>
     <form class="form">
       <div class="group">
@@ -7,15 +7,15 @@
         <label for="name"></label>
       </div>
       <div class="group">
-        <input :placeholder="userId" type="email" id="email" name="email" required="" readonly>
-        <label for="email"></label>
+        <input :placeholder="userId" type="userId" id="userId" name="userId" required="" readonly>
+        <label for="userId"></label>
       </div>
       <div class="group">
         <textarea placeholder="Comment" id="comment" name="comment" rows="5" required=""
           v-model="review.reviewContent"></textarea>
         <label for="comment"></label>
       </div>
-      <button @click.prevent="createReview">Submit</button>
+      <button @click.prevent="updateReview">Submit</button>
     </form>
   </div>
 
@@ -23,43 +23,61 @@
 
 <script setup>
 import { ref, defineProps, defineEmits } from 'vue';
-import { useReviewStore } from "@/stores/reviewStore";
 import { useUserStore } from '@/stores/userStore';
+import { useReviewStore } from '@/stores/reviewStore';
+import axios from 'axios';
 
 const props = defineProps({
-  isbn: {
-    type: String,
+  review: {
+    type: Object,
     required: true,
   },
 });
 
 const userStore = useUserStore();
-const store = useReviewStore();
+const reviewStore = useReviewStore();
 const emits = defineEmits(['close']);
 
 const userId = userStore.loginUser;
 console.log(userId);
 
 const review = ref({
-  userId: userId,
-  isbn: props.isbn,
-  reviewTitle: "",
-  reviewContent: "",
+  reviewId: props.review.reviewId,
+  userId: props.review.userId,
+  isbn: props.review.isbn,
+  reviewTitle: props.review.reviewTitle,
+  reviewContent: props.review.reviewContent,
 })
 
 
-const createReview = function () {
+const updateReview = function () {
   if (!review.value.reviewTitle || !review.value.reviewContent) {
     alert("Please fill in all fields.");
     return;
   }
-  store.createReview(review.value)
+
+  axios({
+    url: "http://localhost:8080/review/update",
+    method: "PUT",
+    params: {
+      reviewId: review.value.reviewId,
+      userId: review.value.userId,
+      isbn: review.value.isbn,
+      reviewTitle: review.value.reviewTitle,
+      reviewContent: review.value.reviewContent,
+    }
+  })
+    .then(() => {
+      reviewStore.getBookReviews(review.value.isbn)
+      emits('close');
+    })
+
   emits('close');
 }
 </script>
 
 <style scoped>
-.card {
+.card-update {
   background-color: #fff;
   border-radius: 10px;
   padding: 20px;

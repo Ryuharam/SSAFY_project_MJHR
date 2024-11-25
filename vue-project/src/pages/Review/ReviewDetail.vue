@@ -1,7 +1,40 @@
 <template>
+  <!-- updateReview 모달 -->
+  <div v-if="showModal" class="modal-overlay" @click.self="closeModal">
+    <div class="modal-content">
+      <ReviewUpdate :review="props.review" @close="closeModal" />
+      <button class="close-button" @click="closeModal">X</button>
+    </div>
+  </div>
+
+  <!-- ReviewList -->
+  <ReviewList :isbn="props.review.isbn" />
+
   <div class="card">
     <div class="body">
-      <button class="close-button" @click="deleteReview">X</button>
+      <button class="update-button" @click="showModal = true">
+        <svg xml:space="preserve" viewBox="0 0 41.915 41.916" xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns="http://www.w3.org/2000/svg" id="Capa_1" version="1.1" fill="#000000">
+          <g stroke-width="0" id="SVGRepo_bgCarrier"></g>
+          <g stroke-linejoin="round" stroke-linecap="round" id="SVGRepo_tracerCarrier"></g>
+          <g id="SVGRepo_iconCarrier">
+            <g>
+              <g>
+                <path
+                  d="M11.214,20.956c0,3.091-2.509,5.589-5.607,5.589C2.51,26.544,0,24.046,0,20.956c0-3.082,2.511-5.585,5.607-5.585 C8.705,15.371,11.214,17.874,11.214,20.956z">
+                </path>
+                <path
+                  d="M26.564,20.956c0,3.091-2.509,5.589-5.606,5.589c-3.097,0-5.607-2.498-5.607-5.589c0-3.082,2.511-5.585,5.607-5.585 C24.056,15.371,26.564,17.874,26.564,20.956z">
+                </path>
+                <path
+                  d="M41.915,20.956c0,3.091-2.509,5.589-5.607,5.589c-3.097,0-5.606-2.498-5.606-5.589c0-3.082,2.511-5.585,5.606-5.585 C39.406,15.371,41.915,17.874,41.915,20.956z">
+                </path>
+              </g>
+            </g>
+          </g>
+        </svg>
+      </button>
+      <button class="delete-button" @click.prevent="deleteReview">X</button>
       <p class="text">
         ❝ {{ review.reviewTitle }} ❞
       </p>
@@ -65,7 +98,6 @@
               </g>
             </svg>0</div>
         </div>
-
       </div>
     </div>
   </div>
@@ -74,7 +106,18 @@
 </template>
 
 <script setup>
-import { defineProps } from 'vue';
+import axios from 'axios';
+import { defineProps, ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { useUserStore } from '@/stores/userStore';
+import { useReviewStore } from '@/stores/reviewStore';
+import ReviewUpdate from './ReviewUpdate.vue';
+
+const showModal = ref(false);
+
+const closeModal = () => {
+  showModal.value = false;
+};
 
 const props = defineProps({
   review: {
@@ -83,14 +126,61 @@ const props = defineProps({
   },
 })
 
+const router = useRouter();
+const userStore = useUserStore();
+const reviewStroe = useReviewStore();
+
 const deleteReview = function () {
+
+  console.log(`http://localhost:8080/review/delete/${props.review.reviewId}`);
+
+  if (userStore.loginUser !== props.review.userId) {
+    alert("다른사람의 답글을 지울 수 없습니다")
+    return
+  }
+
+  axios.delete(`http://localhost:8080/review/delete/${props.review.reviewId}`)
+    .then(() => {
+      router.push({
+        name: 'BookDetail',
+        params: { isbn: props.review.isbn },
+      });
+      reviewStroe.getBookReviews(props.review.isbn)
+    })
+    .catch((error) => {
+      console.error('Failed to delete review:', error);
+      alert('리뷰 삭제에 실패했습니다. 다시 시도해주세요.');
+    });
+
+}
+
+const updateReview = function () {
+  if (userStore.loginUser !== props.review.userId) {
+    alert("다른사람의 답글을 수정할 수 없습니다")
+    return
+  }
 
 }
 
 </script>
 
 <style scoped>
-.close-button {
+.update-button {
+  background: transparent;
+  border: 0;
+  color: #Af8F6F;
+  font-size: 18px;
+}
+
+.update-button svg {
+  position: absolute;
+  right: 40px;
+  top: 14px;
+  fill: #Af8F6F;
+  width: 15px;
+}
+
+.delete-button {
   position: absolute;
   top: 10px;
   right: 10px;
@@ -175,5 +265,40 @@ const deleteReview = function () {
   margin-right: 5px;
   height: 100%;
   stroke: #9fa4aa;
+}
+
+/* 모달 오버레이 */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* 모달 콘텐츠 */
+.modal-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  position: relative;
+  width: 400px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* 닫기 버튼 */
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
 }
 </style>
