@@ -50,7 +50,7 @@ public class ReviewServiceImpl implements ReviewService{
 
 	@Override
 	public int getSearchResultCount(SearchCondition condition) {
-		return 0;
+		return dao.getSearchResultCount(condition);
 	}
 
 }
