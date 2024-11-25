@@ -9,14 +9,29 @@
       </div>
       <!-- 상세 정보 박스 -->
       <div class="detail-box">
-        <div>
-          <p>ISBN: {{ isbn }}</p>
-          <p>Title: {{ book.title }}</p>
-          <p>author: {{ book.author }}</p>
-          <p>publisher: {{ book.publisher }}</p>
-          <p>pubdate: {{ book.pubdate }}</p>
-        </div>
-        <div class="like">
+        <table class="book-detail">
+          <tr>
+            <td>ISBN</td>
+            <td>{{ isbn }}</td>
+          </tr>
+          <tr>
+            <td>Title</td>
+            <td>{{ book.title }}</td>
+          </tr>
+          <tr>
+            <td>Author</td>
+            <td>{{ book.author }}</td>
+          </tr>
+          <tr>
+            <td>Publisher</td>
+            <td>{{ book.publisher }}</td>
+          </tr>
+          <tr>
+            <td>Pubdate</td>
+            <td>{{ book.pubdate }}</td>
+          </tr>
+        </table>
+        <div class="like-box">
           <div class="like-button">
             <input class="on" id="heart" type="checkbox" :checked="isLiked" @change="toggleLike" />
             <label class="like" for="heart">
@@ -39,8 +54,9 @@
     <div class="review">
       <h4>reviews</h4>
       <hr>
-
-      <button @click="showModal = true">리뷰 작성하기</button>
+      <div class="insertBtn">
+        <button @click="showModal = true">리뷰 작성하기</button>
+      </div>
       <!-- ReviewCreate 모달 -->
       <div v-if="showModal" class="modal-overlay" @click.self="closeModal">
         <div class="modal-content">
@@ -138,6 +154,31 @@ watch(() => props.isbn, async () => {
 </script>
 
 <style scoped>
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.review {
+  width: 100%;
+}
+
+.insertBtn {
+  display: flex;
+  flex-direction: row-reverse;
+  margin: 0;
+  padding: 1em;
+}
+
+.book-detail {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 10px 10px;
+  text-align: left;
+}
+
+
 /* 모달 오버레이 */
 .modal-overlay {
   position: fixed;
@@ -180,8 +221,6 @@ watch(() => props.isbn, async () => {
   /* 가로 배치 */
   gap: 30px;
   /* 이미지와 상세 정보 간 간격 */
-  align-items: flex-start;
-  /* 세로 정렬 방식 (기본은 위 정렬) */
 }
 
 .img-box {
@@ -192,6 +231,8 @@ watch(() => props.isbn, async () => {
 }
 
 .detail-box {
+  margin: 0;
+  padding: 1%;
   flex: 2;
   position: relative;
   /* 자식 요소(absolute) 기준 위치 설정 */

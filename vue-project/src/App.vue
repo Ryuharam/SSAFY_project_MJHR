@@ -60,6 +60,7 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
+  min-height: 2000px;
 }
 
 .head {
@@ -72,11 +73,16 @@ onMounted(() => {
 }
 
 .banner {
-  width: 100%; /* 배너가 페이지 전체 너비를 차지하도록 */
-  height: 300px; /* 원하는 높이 설정 */
-  background-image: url('@/assets/banner-img.png'); /* 이미지 경로 설정 */
-  background-position: center; /* 이미지를 중앙에 배치 */
-  background-repeat: no-repeat; /* 반복 방지 */
+  width: 100%;
+  /* 배너가 페이지 전체 너비를 차지하도록 */
+  height: 300px;
+  /* 원하는 높이 설정 */
+  background-image: url('@/assets/banner-img.png');
+  /* 이미지 경로 설정 */
+  background-position: center;
+  /* 이미지를 중앙에 배치 */
+  background-repeat: no-repeat;
+  /* 반복 방지 */
   display: flex;
 }
 
@@ -84,7 +90,8 @@ onMounted(() => {
   padding-top: 1%;
   padding-bottom: 1%;
   width: 30%;
-  background-color: rgba(209, 187, 158, 0.9);;
+  background-color: rgba(209, 187, 158, 0.9);
+  ;
   color: #f8f8f7;
   display: flex;
   position: absolute;
@@ -92,7 +99,7 @@ onMounted(() => {
 }
 
 .user-name {
-margin: auto;
+  margin: auto;
 }
 
 .auth-link {
