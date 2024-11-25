@@ -52,6 +52,8 @@ export const useBookStore = defineStore('book', () => {
     }
   }
 
+  const myBooks = ref([])
+
 
   return {
     bookList,
@@ -63,5 +65,6 @@ export const useBookStore = defineStore('book', () => {
     isbn,
     book,
     getBookDetail,
+    myBooks,
   };
 });

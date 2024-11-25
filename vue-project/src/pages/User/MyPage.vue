@@ -16,7 +16,7 @@
         </div>
       </div>
       <div class="book-list">
-
+        <BookList :results="bookStore.myBooks" />
       </div>
     </div>
   </div>
@@ -25,11 +25,14 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useUserStore } from '@/stores/userStore';
+import { useBookStore } from '@/stores/bookStore';
+import BookList from '../Book/BookList.vue';
 
 const profileImage = ref('');
 const shortIntro = ref('');
 const fullIntro = ref('');
 const store = useUserStore()
+const bookStore = useBookStore();
 
 const userId = store.loginUser;
 
