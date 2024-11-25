@@ -1,6 +1,4 @@
 <template>
-  <h5>BookDetail</h5>
-  <hr />
   <div class="container">
     <div class="book-info">
       <!-- 이미지 박스 -->
@@ -41,6 +39,7 @@
     <div class="review">
       <h4>reviews</h4>
       <hr>
+
       <button @click="showModal = true">리뷰 작성하기</button>
       <!-- ReviewCreate 모달 -->
       <div v-if="showModal" class="modal-overlay" @click.self="closeModal">

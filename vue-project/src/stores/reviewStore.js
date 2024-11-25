@@ -21,6 +21,24 @@ export const useReviewStore = defineStore("review", () => {
     reviewContent: "",
   })
 
+  const getBookReviews = function (isbn) {
+    console.log('📡 리뷰 목록 조회 요청 보내는 중:');
+    console.log(isbn);
+    console.log("주소", `${REST_API_URL}/book/${isbn}`);
+
+    axios.get(`${REST_API_URL}/book/${isbn}`)
+      .then(response => {
+        console.log("결과", response.data);
+        bookReviews.value = response.data;
+        console.log("도서리뷰", bookReviews)
+      })
+      .catch(error => {
+        console.error("리뷰를 가져오는 데 실패했습니다.", error);
+      });
+  };
+
+
+
   const createReview = function (newReview) {
 
     console.log(newReview)
@@ -39,6 +57,7 @@ export const useReviewStore = defineStore("review", () => {
     })
       .then((response) => {
         console.log('📚 리뷰 등록 완료:', response);
+        bookReviews.value = getBookReviews(newReview.isbn).data
       })
       .catch((error) => {
         console.error('❌ 리뷰 등록에 실패했습니다:', error);
@@ -55,6 +74,7 @@ export const useReviewStore = defineStore("review", () => {
     pageSize,
     review,
     createReview,
+    getBookReviews
   }
 
 })

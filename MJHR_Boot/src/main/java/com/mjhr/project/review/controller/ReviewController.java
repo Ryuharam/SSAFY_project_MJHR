@@ -79,7 +79,7 @@ public class ReviewController {
 
 	@Operation(summary = "독후감 검색", description = "검색 조건에 따라 독후감을 검색합니다")
 	@GetMapping("/search")
-	public ResponseEntity<PageResponse<Review>> searchReviewByKey(@ModelAttribute SearchCondition getCondition,
+	public ResponseEntity<?> searchReviewByKey(@ModelAttribute SearchCondition getCondition,
 			@RequestParam(value = "page", defaultValue = "1") int page,
 			@RequestParam(value = "size", defaultValue = "100") int size) {
 
@@ -129,7 +129,7 @@ public class ReviewController {
 		// 응답 객체 생성
 		PageResponse<Review> response = new PageResponse<>(result, page, size, totalPages, totalItems);
 
-		return new ResponseEntity<>(response, HttpStatus.OK);
+		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 
 	@Operation(summary = "독후감 등록", description = "독후감 작성")
