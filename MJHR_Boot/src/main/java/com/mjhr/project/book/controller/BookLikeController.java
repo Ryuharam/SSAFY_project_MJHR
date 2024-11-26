@@ -56,6 +56,7 @@ public class BookLikeController {
 	}
 
 	
+	@Operation(summary = "사용자의 도서 좋아요 여부 확인")
 	@GetMapping("/user/{userId}/book/{isbn}")
 	public ResponseEntity<Boolean> isBookLikedByUser(
 	        @PathVariable("userId") String userId,
@@ -70,7 +71,7 @@ public class BookLikeController {
 	@Operation(summary = "사용자 좋아요 리스트 조회", description = "사용자가 좋아요한 도서 리스트를 조회합니다")
 	@GetMapping("/user/{userId}")
 	public ResponseEntity<?> getMyBookLike(@PathVariable("userId") String userId) {
-
+		
 		System.out.println("userId : " + userId);
 
 		List<BookLike> myList = service.getMyBookLike(userId);

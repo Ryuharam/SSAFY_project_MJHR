@@ -1,6 +1,7 @@
 import { ref } from 'vue';
 import { defineStore } from 'pinia';
 import axios from 'axios';
+import { useUserStore } from './userStore';
 
 
 const REST_API_URL = `http://localhost:8080/review`;
@@ -39,7 +40,19 @@ export const useReviewStore = defineStore("review", () => {
       ;
   };
 
+  const userStore = useUserStore();
+  const userId = userStore.loginUser;
 
+  const getUserReviews = function () {
+    axios.get(`${REST_API_URL}/myreview/${userId}`)
+      .then(response => {
+        userReviews.value = response.data;
+      })
+      .catch(error => {
+        console.log("사용자 리뷰 조회 실패", error);
+        userReviews.value = [];
+      })
+  }
 
   const createReview = function (newReview) {
 
@@ -77,7 +90,8 @@ export const useReviewStore = defineStore("review", () => {
     pageSize,
     review,
     createReview,
-    getBookReviews
+    getBookReviews,
+    getUserReviews,
   }
 
 })

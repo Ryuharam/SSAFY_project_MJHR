@@ -158,6 +158,7 @@ watch(() => props.isbn, async () => {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
 }
 
 .review {
@@ -218,15 +219,15 @@ watch(() => props.isbn, async () => {
 .book-info {
   display: flex;
   flex-direction: row;
-  /* 가로 배치 */
   gap: 30px;
-  /* 이미지와 상세 정보 간 간격 */
+  width: 100%;
 }
 
 .img-box {
   flex: 1;
   /* 가변 크기 할당 */
   max-width: 300px;
+  min-width: 150px;
   /* 이미지 최대 너비 제한 */
 }
 

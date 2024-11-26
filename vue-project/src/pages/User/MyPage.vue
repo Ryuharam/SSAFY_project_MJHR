@@ -15,8 +15,30 @@
           <p>{{ fullIntro }}</p>
         </div>
       </div>
-      <div class="book-list">
-        <BookList :results="bookStore.myBooks" />
+      <div>
+        <div class="category">
+          <button class="book-list-btn" @click.prevent="isShow = true">
+            <h3>내가 좋아하는 도서 목록</h3>
+          </button>
+          <button class="book-list-btn" @click.prevent="isShow = false">
+            <h3>내가 작성한 리뷰 목록</h3>
+          </button>
+        </div>
+        <hr>
+        <div v-if="isShow" class="result-list">
+          <div v-for="(book, index) in bookLikeStore.userLikes" :key="index">
+            <button @click.prevent="goBookDetail(book.isbn)" class="list-btn">
+              {{ book.title }}
+            </button>
+          </div>
+        </div>
+        <div v-if="!isShow" class="result-list">
+          <div v-for="(review, index) in reviewStore.userReviews" :key="index">
+            <button @click.prevent="" class="list-btn">
+              {{ review.reviewTitle }}
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -24,17 +46,20 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 import { useUserStore } from '@/stores/userStore';
-import { useBookStore } from '@/stores/bookStore';
-import BookList from '../Book/BookList.vue';
+import { useBookLikeStore } from '@/stores/bookLikeStore';
+import { useReviewStore } from '@/stores/reviewStore';
 
 const profileImage = ref('');
 const shortIntro = ref('');
 const fullIntro = ref('');
-const store = useUserStore()
-const bookStore = useBookStore();
+const store = useUserStore();
+const bookLikeStore = useBookLikeStore();
+const reviewStore = useReviewStore();
 
 const userId = store.loginUser;
+const isShow = ref(true);
 
 onMounted(() => {
   const savedInfo = JSON.parse(localStorage.getItem('userInfo'));
@@ -43,33 +68,91 @@ onMounted(() => {
     shortIntro.value = savedInfo.shortIntro || '';
     fullIntro.value = savedInfo.fullIntro || '';
   }
+  bookLikeStore.getUserLikes()
+  reviewStore.getUserReviews()
 });
+
+const router = useRouter();
+
+const goBookDetail = function (isbn) {
+  router.push({
+    name: 'BookDetail',
+    params: { isbn: isbn },
+  })
+}
+
+
+
 </script>
 
 <style scoped>
 .mypage-container {
   padding: 4em;
-  border: #333 solid;
   display: flex;
   flex-direction: column;
+  color: #543310;
+}
+
+.user-name {
+  color: #543310;
 }
 
 .user-page {
   display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
+  flex-direction: column;
 }
 
 .user-info {
   margin: 0;
   padding: 1em;
-  border: #333 solid;
-  width: 10em;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 3em;
 }
 
-.book-list {
-  border: #333 solid;
+.category {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 1em;
+}
+
+.book-list-btn {
+  border: 0;
+  background-color: #F8F4E1;
+  color: lightgrey;
+  border-radius: 10px;
+  padding: 0 2em 0 2em;
+}
+
+.book-list-btn:focus {
+  background-color: #af8f6f;
+  color: white
+}
+
+.result-list {
   width: 30em;
+}
+
+.list-btn {
+  margin: 10px 0 10px 0;
+  border: #af8f6f solid;
+  background-color: transparent;
+  color: #543310;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 10px;
+  height: 70px;
+  width: 100%;
+  cursor: pointer;
+}
+
+.list-btn:hover {
+  border: #F8F4E1;
+  background-color: #D1BB9E;
+  color: white;
 }
 
 .profile-section {
@@ -85,14 +168,5 @@ onMounted(() => {
 
 .info-section {
   margin-bottom: 20px;
-}
-
-h1,
-h2 {
-  color: #333;
-}
-
-p {
-  margin-bottom: 15px;
 }
 </style>

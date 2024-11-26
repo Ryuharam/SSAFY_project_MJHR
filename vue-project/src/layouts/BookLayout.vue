@@ -11,9 +11,10 @@
 <style scoped>
 .book-box {
   margin: 0;
-  padding: 5em;
+  padding-top: 5em;
   display: flex;
   flex-direction: column;
   align-items: center;
+  min-width: 800px;
 }
 </style>

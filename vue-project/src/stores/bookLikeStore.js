@@ -61,6 +61,24 @@ export const useBookLikeStore = defineStore('bookLike', () => {
     }
   };
 
+  const userLikes = ref([]);
+  const userId = userStore.loginUser;
+
+  // 사용자 좋아요 도서 목록 가져오기
+  const getUserLikes = function () {
+
+    axios.get(`${REST_API_URL}user/${userId}`)
+      .then(response => {
+        console.log("응답 결과", response)
+        userLikes.value = response.data
+        console.log(userLikes.value)
+      })
+      .catch(error => {
+        console.log("좋아요 도서 조회 실패", error)
+        userLikes.value = [];
+      })
+  }
+
   return {
     isbn,
     cntBookLike,
@@ -69,5 +87,7 @@ export const useBookLikeStore = defineStore('bookLike', () => {
     checkUserLike,
     doBookLike,
     doBookUnlike,
+    userLikes,
+    getUserLikes,
   };
 });

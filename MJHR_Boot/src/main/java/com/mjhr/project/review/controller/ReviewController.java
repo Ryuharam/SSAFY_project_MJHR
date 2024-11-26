@@ -62,7 +62,7 @@ public class ReviewController {
 			@RequestParam(value = "size", defaultValue = "100") int size) {
 		SearchCondition condition = new SearchCondition();
 		condition.setKey("user_id");
-		condition.setWord(userId);
+		condition.setWord(userId.trim());
 		return searchReviewByKey(condition, page, size);
 	}
 

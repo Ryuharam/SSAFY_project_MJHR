@@ -1,5 +1,5 @@
 <template>
-  <h1>검색 결과</h1>
+  <h1 style="color: #543310;">검색 결과</h1>
   <div class="book-list">
     <BookList :results="results" />
   </div>
@@ -24,5 +24,6 @@ onMounted(() => {
 .book-list {
   display: flex;
   justify-content: center;
+  padding-top: 1em;
 }
 </style>

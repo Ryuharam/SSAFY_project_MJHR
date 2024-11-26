@@ -1,22 +1,29 @@
 <template>
   <div class="settings-container">
-    <div class="profile-section">
-      <img :src="profileImage" alt="프로필 이미지" class="profile-image" @click="triggerFileInput">
-      <input type="file" ref="fileInput" @change="changeProfileImage" accept="image/*" style="display: none;">
+    <div class="user-name">
+      <h3>{{ userId }}님의 서재</h3>
     </div>
-    
-    <div class="info-section form">
-      <form @submit.prevent="updateInfo">
-        <div class="form-group inputForm">
-          <label for="shortIntro" class="flex-column">한 줄 소개</label>
-          <input type="text" id="shortIntro" v-model="shortIntro" placeholder="한 줄 소개를 입력하세요" class="input">
+    <div class="user-page">
+      <div class="user-info">
+        <div class="profile-section">
+          <img :src="profileImage" alt="프로필 이미지" class="profile-image" @click="triggerFileInput">
+          <input type="file" ref="fileInput" @change="changeProfileImage" accept="image/*" style="display: none;">
         </div>
-        <div class="form-group inputForm">
-          <label for="fullIntro" class="flex-column">소개</label>
-          <textarea id="fullIntro" v-model="fullIntro" placeholder="소개를 입력하세요" class="input"></textarea>
-        </div>
-        <button type="submit" class="button-submit">정보 업데이트</button>
-      </form>
+      </div>
+      <div class="info-section form">
+        <form @submit.prevent="updateInfo">
+          <div class="form-group inputForm">
+            <label for="shortIntro" class="flex-column">한 줄 소개</label>
+            <input type="text" id="shortIntro" v-model="shortIntro" placeholder="한 줄 소개를 입력하세요" class="input">
+          </div>
+          <div class="form-group inputForm">
+            <label for="fullIntro" class="flex-column">소개</label>
+            <textarea id="fullIntro" v-model="fullIntro" placeholder="소개를 입력하세요" class="input">
+            </textarea>
+          </div>
+          <button type="submit" class="button-submit">정보 업데이트</button>
+        </form>
+      </div>
     </div>
   </div>
 </template>
@@ -24,6 +31,10 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
+import { useUserStore } from '@/stores/userStore';
+
+const store = useUserStore();
+const userId = store.loginUser;
 
 const router = useRouter();
 const profileImage = ref('');
@@ -77,132 +88,29 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.form {
+.settings-container {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  background-color: #ffffff;
-  padding: 30px;
-  width: 450px;
-  border-radius: 20px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-}
-
-::placeholder {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-}
-
-.form button {
-  align-self: flex-end;
-}
-
-.flex-column>label {
-  color: #151717;
-  font-weight: 600;
-}
-
-.inputForm {
-    border: 1.5px solid #ecedec;
-    border-radius: 10px;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    padding: 0 10px;
-    transition: 0.2s ease-in-out;
-    background-color: #ffffff;
-  }
-
-  .input {
-    margin-left: 10px;
-    border: none;
-    width: 85%;
-    height: 100%;
-    background-color: transparent;
-  }
-
-  .input:focus {
-    outline: none;
-  }
-
-  .inputForm:focus-within {
-    border: 1.5px solid #2d79f3;
-  }
-
-
-.flex-row {
-  display: flex;
-  flex-direction: row;
   align-items: center;
-  gap: 10px;
-  justify-content: space-between;
-}
-
-.flex-row>div>label {
-  font-size: 14px;
-  color: black;
-  font-weight: 400;
-}
-
-.span {
-  font-size: 14px;
-  margin-left: 5px;
-  color: #af8f6f;
-  font-weight: 500;
-  cursor: pointer;
-}
-
-.button-submit {
-  margin: 20px 0 10px 0;
-  background-color: #af8f6f;
-  border: none;
-  color: white;
-  font-size: 15px;
-  font-weight: 500;
-  border-radius: 10px;
-  height: 50px;
-  width: 100%;
-  cursor: pointer;
-}
-
-.button-submit:hover {
-  background-color: #D1BB9E;
-}
-
-.p {
-  text-align: center;
-  color: black;
-  font-size: 14px;
-  margin: 5px 0;
-}
-
-.btn {
-  margin-top: 10px;
-  width: 100%;
-  height: 50px;
-  border-radius: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: 500;
-  gap: 10px;
-  border: 1px solid #ead8c0;
-  background-color: white;
-  cursor: pointer;
-  transition: 0.2s ease-in-out;
-}
-
-.btn:hover {
-  border: 1px solid #ead8c0;
-  ;
-}
-
-.settings-container {
   padding: 20px;
+  width: 100%;
+}
+
+.user-name {
+  color: #543310;
+  margin-bottom: 20px;
+}
+
+.user-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 40%;
 }
 
 .profile-section {
   text-align: center;
-  margin-bottom: 20px;
 }
 
 .profile-image {
@@ -212,46 +120,68 @@ onMounted(() => {
   cursor: pointer;
 }
 
-.settings-container {
+.info-section {
+  width: 100%;
+  max-width: 450px;
+}
+
+form {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 20px;
-}
-
-.info-section.form {
-  max-width: 450px;
-  width: 100%;
-  margin: 0 auto;
-}
-
-.textarea-container {
-  height: auto;
-}
-
-.textarea {
-  height: 150px;
-  resize: vertical;
+  gap: 15px;
 }
 
 .inputForm {
+  display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  gap: 5px;
 }
 
-.input {
+label {
+  font-size: 14px;
+  color: #543310;
+  font-weight: 600;
+}
+
+.input,
+textarea {
   width: 100%;
-  margin-left: 0;
   padding: 10px;
+  border: 1.5px solid #ecedec;
+  border-radius: 10px;
+  font-size: 14px;
+  font-family: inherit;
+  background-color: #ffffff;
+  resize: vertical;
+  /* 텍스트 영역 높이 조절 가능 */
 }
 
-.flex-column > label {
-  margin-bottom: 5px;
+textarea {
+  min-height: 100px;
+  /* 최소 높이 설정 */
+  max-height: 300px;
+  /* 최대 높이 설정 */
+}
+
+.input:focus,
+textarea:focus {
+  outline: none;
+  border-color: #af8f6f;
 }
 
 .button-submit {
+  background-color: #af8f6f;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  height: 50px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background-color 0.2s;
   width: 100%;
-  margin-top: 20px;
 }
 
+.button-submit:hover {
+  background-color: #d1bb9e;
+}
 </style>
