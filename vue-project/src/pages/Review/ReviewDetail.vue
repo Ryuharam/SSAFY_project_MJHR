@@ -154,13 +154,6 @@ const deleteReview = function () {
 
 }
 
-const updateReview = function () {
-  if (userStore.loginUser !== props.review.userId) {
-    alert("다른사람의 답글을 수정할 수 없습니다")
-    return
-  }
-
-}
 
 </script>
 

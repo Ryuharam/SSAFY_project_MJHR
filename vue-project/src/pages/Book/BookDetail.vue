@@ -33,7 +33,8 @@
         </table>
         <div class="like-box">
           <div class="like-button">
-            <input class="on" id="heart" type="checkbox" :checked="isLiked" @change="toggleLike" />
+            <input class="on" id="heart" type="checkbox" :checked="isLiked" @change="toggleLike"
+              :disabled="!userStore.loginUser" />
             <label class="like" for="heart">
               <svg class="like-icon" fill-rule="nonzero" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -80,6 +81,7 @@ import { useBookStore } from '@/stores/bookStore';
 import { useBookLikeStore } from '@/stores/bookLikeStore';
 import ReviewCreate from '../Review/ReviewCreate.vue';
 import ReviewList from '../Review/ReviewList.vue';
+import { useUserStore } from '@/stores/userStore';
 
 
 // Props 정의
@@ -112,9 +114,16 @@ const updateLikeStatus = async () => {
   isLiked.value = likeStore.isLiked; // 좋아요 상태 갱신
 };
 
-
+const userStore = useUserStore();
 
 const toggleLike = async () => {
+
+  if (!userStore.loginUser) {
+    event.preventDefault();
+    alert("좋아요는 로그인 후 이용 가능합니다")
+    return
+  }
+
   if (isProcessing.value) return; // 중복 요청 방지
 
   isProcessing.value = true;

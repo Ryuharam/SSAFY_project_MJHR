@@ -51,6 +51,15 @@ const review = ref({
 
 
 const updateReview = function () {
+
+  console.log(userStore.loginUser)
+  console.log(props.review.userId)
+
+  if (userStore.loginUser !== props.review.userId) {
+    alert("다른사람의 답글을 수정할 수 없습니다")
+    return
+  }
+
   if (!review.value.reviewTitle || !review.value.reviewContent) {
     alert("Please fill in all fields.");
     return;
