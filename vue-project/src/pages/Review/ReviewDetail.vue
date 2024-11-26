@@ -113,7 +113,7 @@ import { useUserStore } from '@/stores/userStore';
 import { useReviewStore } from '@/stores/reviewStore';
 import ReviewUpdate from './ReviewUpdate.vue';
 
-const showModal = ref(false);
+const showModal = ref(false)
 
 const closeModal = () => {
   showModal.value = false;
