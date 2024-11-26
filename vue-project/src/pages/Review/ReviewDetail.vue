@@ -35,13 +35,13 @@
         </svg>
       </button>
       <button class="delete-button" @click.prevent="deleteReview">X</button>
-      <p class="text">
+      <span class="text">
         ❝ {{ review.reviewTitle }} ❞
-      </p>
+      </span>
       <hr class="custom-hr" />
-      <p class="text-content">
+      <span class="text-content">
         {{ review.reviewContent }}
-      </p>
+      </span>
       <span class="username">from:
         @{{ review.userId }}</span>
       <div class="footer">
@@ -215,6 +215,7 @@ const updateReview = function () {
 .body {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 }
 
 .body .text {

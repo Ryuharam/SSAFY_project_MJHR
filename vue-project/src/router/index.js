@@ -106,6 +106,13 @@ const router = createRouter({
       ],
     },
   ],
+  scrollBehavior(to, from, savePosition) {
+    if (savePosition) {
+      return savePosition;
+    } else {
+      return { top: 0 }
+    }
+  },
 })
 
 router.beforeEach((to, from) => {

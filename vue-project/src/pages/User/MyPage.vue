@@ -17,7 +17,7 @@
       </div>
       <div>
         <div class="category">
-          <button class="book-list-btn" @click.prevent="isShow = true">
+          <button class="book-list-btn" @click.prevent="isShow = true" ref="focusButton">
             <h3>내가 좋아하는 도서 목록</h3>
           </button>
           <button class="book-list-btn" @click.prevent="isShow = false">
@@ -33,8 +33,8 @@
           </div>
         </div>
         <div v-if="!isShow" class="result-list">
-          <div v-for="(review, index) in reviewStore.userReviews" :key="index">
-            <button @click.prevent="" class="list-btn">
+          <div v-for="(review, index) in userReviews" :key="index">
+            <button @click.prevent="openModal(review)" class="list-btn">
               {{ review.reviewTitle }}
             </button>
           </div>
@@ -42,14 +42,24 @@
       </div>
     </div>
   </div>
+
+  <!-- updateReview 모달 -->
+  <div v-if="showModal" class="modal-overlay" @click.self="closeModal">
+    <div class="modal-content">
+      <ReviewUpdate :review="selectedReview" @close="closeModal" />
+      <button class="close-button" @click="closeModal">X</button>
+    </div>
+  </div>
+
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useUserStore } from '@/stores/userStore';
 import { useBookLikeStore } from '@/stores/bookLikeStore';
 import { useReviewStore } from '@/stores/reviewStore';
+import ReviewUpdate from '../Review/ReviewUpdate.vue';
 
 const profileImage = ref('');
 const shortIntro = ref('');
@@ -60,6 +70,24 @@ const reviewStore = useReviewStore();
 
 const userId = store.loginUser;
 const isShow = ref(true);
+const focusButton = ref(null)
+
+const showModal = ref(false);
+const selectedReview = ref(null);
+
+const userReviews = computed(() =>
+  reviewStore.userReviews
+)
+
+const openModal = (review) => {
+  selectedReview.value = review;
+  showModal.value = true;
+}
+const closeModal = () => {
+  showModal.value = false;
+  selectedReview.value = null;
+  reviewStore.getUserReviews();
+};
 
 onMounted(() => {
   const savedInfo = JSON.parse(localStorage.getItem('userInfo'));
@@ -70,6 +98,9 @@ onMounted(() => {
   }
   bookLikeStore.getUserLikes()
   reviewStore.getUserReviews()
+  if (focusButton.value) {
+    focusButton.value.focus();
+  }
 });
 
 const router = useRouter();
@@ -86,6 +117,41 @@ const goBookDetail = function (isbn) {
 </script>
 
 <style scoped>
+/* 모달 오버레이 */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* 모달 콘텐츠 */
+.modal-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  position: relative;
+  width: 400px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* 닫기 버튼 */
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+
 .mypage-container {
   padding: 4em;
   display: flex;

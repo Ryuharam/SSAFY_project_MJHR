@@ -72,8 +72,6 @@ export const useReviewStore = defineStore("review", () => {
     })
       .then((response) => {
         console.log('📚 리뷰 등록 완료:', response);
-        console.log("리뷰 확인용", newReview)
-        console.log("리뷰 확인용 isbn", newReview.isbn)
         bookReviews.value = getBookReviews(newReview.isbn)
       })
       .catch((error) => {

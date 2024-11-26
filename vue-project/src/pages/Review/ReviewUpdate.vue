@@ -1,6 +1,6 @@
 <template>
   <div class="card-update">
-    <span class="title">Leave a Comment</span>
+    <span class="title">Edit Comment</span>
     <form class="form">
       <div class="group">
         <input placeholder="Title" type="text" required="" v-model="review.reviewTitle">
@@ -69,6 +69,7 @@ const updateReview = function () {
   })
     .then(() => {
       reviewStore.getBookReviews(review.value.isbn)
+      reviewStore.getUserReviews()
       emits('close');
     })
 

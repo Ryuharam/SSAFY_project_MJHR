@@ -55,7 +55,7 @@
       <h4>reviews</h4>
       <hr>
       <div class="insertBtn">
-        <button @click="showModal = true">리뷰 작성하기</button>
+        <button class="button-submit" @click="showModal = true">리뷰 작성하기</button>
       </div>
       <!-- ReviewCreate 모달 -->
       <div v-if="showModal" class="modal-overlay" @click.self="closeModal">
@@ -64,6 +64,7 @@
           <button class="close-button" @click="closeModal">X</button>
         </div>
       </div>
+
       <!-- ReviewList -->
       <ReviewList :isbn="isbn" />
 
@@ -154,6 +155,23 @@ watch(() => props.isbn, async () => {
 </script>
 
 <style scoped>
+.button-submit {
+  margin: 20px 0 10px 0;
+  background-color: #af8f6f;
+  border: none;
+  color: white;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 10px;
+  height: 50px;
+  width: 20%;
+  cursor: pointer;
+}
+
+.button-submit:hover {
+  background-color: #74512d;
+}
+
 .container {
   display: flex;
   flex-direction: column;
